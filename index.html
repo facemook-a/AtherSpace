@@ -15,19 +15,6 @@
             z-index: 1;
         }
 
-        /* زر الموسيقى العائم في الزاوية */
-        .music-toggle {
-            position: fixed; top: 15px; left: 15px; z-index: 10;
-            background: rgba(10, 6, 16, 0.7);
-            border: 1px solid rgba(255, 138, 128, 0.4);
-            border-radius: 50%; width: 40px; height: 40px;
-            display: flex; align-items: center; justify-content: center;
-            color: #ffb4a2; cursor: pointer; backdrop-filter: blur(10px);
-            box-shadow: 0 0 15px rgba(255, 138, 128, 0.2);
-            transition: 0.3s;
-        }
-        .music-toggle:active { transform: scale(0.9); }
-
         .app-wrapper {
             position: relative; z-index: 2;
             width: 100%; height: 100%;
@@ -187,16 +174,6 @@
 
 <canvas id="skyCanvas"></canvas>
 
-<!-- مشغل الصوت (يمكنك استبدال الرابط برابط أغنية بصيغة mp3 مباشرة إذا توفر لديك) -->
-<audio id="bgMusic" loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
-</audio>
-
-<!-- زر التحكم في الصوت عائم في الأعلى -->
-<div class="music-toggle" id="musicBtn" onclick="toggleMusic()" title="تشغيل/إيقاف الموسيقى">
-    🎵
-</div>
-
 <div class="app-wrapper">
     <div class="glass-card">
         <h1 class="card-title">🌙 سَماءُ العاشِقينَ</h1>
@@ -241,40 +218,10 @@
     const CHAT_ID = "8514140364";
     let selectedMood = "غير محدد";
 
-    // --- نظام التشغيل التلقائي عند أول تفاعل للمستخدم ---
-    let musicStarted = false;
-    const bgMusic = document.getElementById('bgMusic');
-    const musicBtn = document.getElementById('musicBtn');
-
-    function triggerAutoPlay() {
-        if (!musicStarted) {
-            bgMusic.play().then(() => {
-                musicStarted = true;
-                musicBtn.style.boxShadow = '0 0 20px #ffb4a2';
-            }).catch(e => console.log("Autoplay blocked waiting for interaction"));
-        }
-    }
-
-    document.addEventListener('click', triggerAutoPlay, { once: true });
-    document.addEventListener('touchstart', triggerAutoPlay, { once: true });
-
-    function toggleMusic() {
-        if (bgMusic.paused) {
-            bgMusic.play();
-            musicBtn.innerText = "🎵";
-            musicBtn.style.opacity = "1";
-        } else {
-            bgMusic.pause();
-            musicBtn.innerText = "🔇";
-            musicBtn.style.opacity = "0.5";
-        }
-    }
-
     function selectMood(mood, element) {
         document.querySelectorAll('.mood-item').forEach(el => el.classList.remove('selected'));
         element.classList.add('selected');
         selectedMood = mood;
-        triggerAutoPlay();
     }
     function selectOrgMood(mood, element) { selectMood(mood, element); }
 
@@ -295,7 +242,7 @@
         }, 500);
     }, 4500);
 
-    // سماء حقيقية وواقعية
+    // سماء احترافية مع قمر فخم وسحب واقعية متطورة
     const skyCanvas = document.getElementById('skyCanvas');
     const sCtx = skyCanvas.getContext('2d');
     let W, H;
@@ -308,25 +255,26 @@
     window.addEventListener('resize', resizeSky);
 
     const stars = [];
-    for (let i = 0; i < 250; i++) {
+    for (let i = 0; i < 280; i++) {
         stars.push({
             x: Math.random() * W,
             y: Math.random() * H,
-            r: Math.random() * 1.5 + 0.3,
+            r: Math.random() * 1.6 + 0.3,
             alpha: Math.random() * 0.9 + 0.1,
             speed: 0.003 + Math.random() * 0.012
         });
     }
 
+    // سحب واقعية ناعمة ومنسابة متعددة الطبقات
     const clouds = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 7; i++) {
         clouds.push({
             x: Math.random() * W,
-            y: Math.random() * (H * 0.6),
-            w: 300 + Math.random() * 400,
-            h: 80 + Math.random() * 120,
-            speed: 0.15 + Math.random() * 0.25,
-            opacity: 0.08 + Math.random() * 0.12
+            y: Math.random() * (H * 0.75),
+            w: 400 + Math.random() * 500,
+            h: 120 + Math.random() * 160,
+            speed: 0.1 + Math.random() * 0.2,
+            opacity: 0.04 + Math.random() * 0.08
         });
     }
 
@@ -349,12 +297,47 @@
         sCtx.clearRect(0, 0, W, H);
 
         let bgGrad = sCtx.createRadialGradient(W * 0.5, H * 0.2, 50, W * 0.5, H * 0.6, W);
-        bgGrad.addColorStop(0, '#0a0612');
-        bgGrad.addColorStop(0.5, '#040208');
-        bgGrad.addColorStop(1, '#000002');
+        bgGrad.addColorStop(0, '#0c0716');
+        bgGrad.addColorStop(0.5, '#050309');
+        bgGrad.addColorStop(1, '#010002');
         sCtx.fillStyle = bgGrad;
         sCtx.fillRect(0, 0, W, H);
 
+        // --- رسم القمر الاحترافي الحقيقي بوهج ساحر ---
+        const moonX = W > 600 ? W * 0.78 : W * 0.75;
+        const moonY = H > 600 ? H * 0.22 : H * 0.18;
+        const moonR = 45;
+
+        // وهج القمر الخلفي
+        let moonGlow = sCtx.createRadialGradient(moonX, moonY, moonR * 0.5, moonX, moonY, moonR * 4);
+        moonGlow.addColorStop(0, 'rgba(255, 230, 210, 0.22)');
+        moonGlow.addColorStop(0.4, 'rgba(255, 180, 162, 0.07)');
+        moonGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        sCtx.fillStyle = moonGlow;
+        sCtx.beginPath();
+        sCtx.arc(moonX, moonY, moonR * 4, 0, Math.PI * 2);
+        sCtx.fill();
+
+        // جسم القمر الهلالي أو الدائري الفخم
+        sCtx.save();
+        sCtx.beginPath();
+        sCtx.arc(moonX, moonY, moonR, 0, Math.PI * 2);
+        let moonBaseGrad = sCtx.createRadialGradient(moonX - 12, moonY - 12, 5, moonX, moonY, moonR);
+        moonBaseGrad.addColorStop(0, '#fffaf0');
+        moonBaseGrad.addColorStop(0.7, '#f5d6c6');
+        moonBaseGrad.addColorStop(1, '#c99a8b');
+        sCtx.fillStyle = moonBaseGrad;
+        sCtx.fill();
+
+        // تجويف الظل لإعطاء شكل هلال بلمسة فنية مجسمة
+        sCtx.globalCompositeOperation = 'destination-out';
+        sCtx.beginPath();
+        sCtx.arc(moonX + 16, moonY - 4, moonR * 0.88, 0, Math.PI * 2);
+        sCtx.fill();
+        sCtx.restore();
+        // ------------------------------------------
+
+        // رسم النجوم المتلألئة
         stars.forEach(s => {
             s.alpha += s.speed * (Math.random() > 0.98 ? 0.3 : 0.02);
             if (s.alpha > 1 || s.alpha < 0.15) s.speed = -s.speed;
@@ -367,17 +350,18 @@
         });
         sCtx.shadowBlur = 0;
 
+        // رسم السحب الواقعية
         clouds.forEach(c => {
             c.x += c.speed;
             if (c.x > W + c.w) c.x = -c.w;
 
             let cGrad = sCtx.createRadialGradient(c.x, c.y, 10, c.x, c.y, c.w * 0.5);
-            cGrad.addColorStop(0, `rgba(40, 25, 45, ${c.opacity})`);
-            cGrad.addColorStop(0.6, `rgba(15, 10, 20, ${c.opacity * 0.5})`);
+            cGrad.addColorStop(0, `rgba(50, 30, 55, ${c.opacity})`);
+            cGrad.addColorStop(0.5, `rgba(25, 15, 30, ${c.opacity * 0.6})`);
             cGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
             sCtx.fillStyle = cGrad;
             sCtx.beginPath();
-            sCtx.arc(c.x, c.y, c.w * 0.4, 0, Math.PI * 2);
+            sCtx.arc(c.x, c.y, c.w * 0.45, 0, Math.PI * 2);
             sCtx.fill();
         });
 
