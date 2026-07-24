@@ -3,583 +3,440 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>سَماءُ اللَّيْلِ | ملاذ الخواطر</title>
-    <!-- استدعاء خطوط عربية فاخرة للقرآن والحكمة -->
-    <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <title>سَماءُ العاشِقينَ - نَبضُ الوِداد</title>
+    <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body, html {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            font-family: 'Cairo', sans-serif;
-            background-color: #010409;
-            color: #f3f4f6;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body, html { width: 100%; height: 100%; overflow: hidden; font-family: 'Cairo', sans-serif; background: #020104; color: #fceee9; }
 
         #skyCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: 1;
         }
 
         .app-wrapper {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px;
+            position: relative; z-index: 2;
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            padding: 15px;
         }
 
         .glass-card {
-            background: rgba(13, 17, 23, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 215, 0, 0.18);
-            border-radius: 24px;
-            padding: 22px 18px;
-            max-width: 390px;
+            position: relative;
+            background: rgba(10, 6, 16, 0.82);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border-radius: 38px;
+            padding: 24px 18px;
+            max-width: 420px;
             width: 100%;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), inset 0 0 15px rgba(255, 215, 0, 0.03);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.95), inset 0 0 50px rgba(255, 138, 128, 0.05);
+            border: 1px solid rgba(255, 138, 128, 0.4);
             text-align: center;
+            animation: borderGlow 6s ease-in-out infinite;
+        }
+        @keyframes borderGlow {
+            0% { border-color: rgba(255, 138, 128, 0.3); box-shadow: 0 0 30px rgba(255, 138, 128, 0.05); }
+            50% { border-color: rgba(255, 183, 178, 0.75); box-shadow: 0 0 80px rgba(255, 138, 128, 0.25); }
+            100% { border-color: rgba(255, 138, 128, 0.3); box-shadow: 0 0 30px rgba(255, 138, 128, 0.05); }
         }
 
         .card-title {
-            font-size: 1.4rem;
-            font-weight: 900;
-            color: #ffffff;
-            margin-bottom: 6px;
-            letter-spacing: 0.5px;
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 1.85rem; font-weight: 700; color: #ffb4a2;
+            text-shadow: 0 0 30px rgba(255, 180, 162, 0.5);
+            letter-spacing: 1px;
         }
 
-        .card-desc {
-            font-size: 0.82rem;
-            color: #9eb1c9;
-            margin-bottom: 14px;
-            line-height: 1.5;
+        .quote-ticker {
+            font-family: 'Amiri', serif;
+            font-size: 0.9rem; font-style: italic;
+            color: #ffd8d3; min-height: 35px;
+            margin: 4px 0 10px; display: flex; align-items: center; justify-content: center;
+            opacity: 0.9; transition: opacity 0.8s ease;
+            text-shadow: 0 0 15px rgba(255, 138, 128, 0.3);
         }
 
+        .card-sub {
+            font-family: 'Amiri', serif;
+            font-style: italic;
+            font-size: 1rem; color: #e2c2c6; margin: 0 0 12px;
+            line-height: 1.7;
+            border-bottom: 1px dashed rgba(255,138,128,0.2); padding-bottom: 8px;
+        }
         .section-title {
-            font-size: 0.78rem;
-            color: #d2a8ff;
-            margin-bottom: 8px;
-            text-align: right;
-            font-weight: 700;
+            font-size: 0.82rem; color: #ffb4a2; margin-bottom: 8px;
+            text-align: right; font-weight: 700;
         }
-
         .mood-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin-bottom: 14px;
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 10px;
         }
-
         .mood-item {
-            background: rgba(22, 27, 34, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 10px 8px;
-            color: #8b949e;
-            font-size: 0.78rem;
+            background: rgba(25, 12, 22, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px; padding: 10px 6px;
+            color: #d1b3b8; font-size: 0.85rem; font-weight: 700;
+            cursor: pointer; transition: all 0.3s ease;
             font-family: 'Cairo', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
         }
-
         .mood-item:hover, .mood-item.selected {
-            background: rgba(212, 175, 55, 0.15);
-            border-color: #d4af37;
-            color: #f3d069;
-            box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
+            background: rgba(255, 138, 128, 0.2);
+            border-color: #ffb4a2; color: #ffb4a2;
+            box-shadow: 0 0 20px rgba(255, 138, 128, 0.3);
+            transform: scale(1.02);
         }
 
+        /* حقول الإدخال الجديدة: البوح وتوقيع المعرّف */
+        .input-group {
+            display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;
+        }
         textarea {
-            width: 100%;
-            height: 85px;
-            background: rgba(1, 4, 9, 0.88);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 14px;
-            padding: 12px;
-            color: #fff;
-            font-family: 'Cairo', sans-serif;
-            font-size: 0.85rem;
-            resize: none;
-            outline: none;
-            margin-bottom: 14px;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            width: 100%; height: 75px;
+            background: rgba(4, 2, 6, 0.9);
+            border: 1px solid rgba(255, 138, 128, 0.25);
+            border-radius: 14px; padding: 10px;
+            color: #fceee9; font-family: 'Amiri', serif;
+            font-size: 1rem; resize: none; outline: none; transition: 0.3s;
         }
-        textarea:focus { 
-            border-color: #d4af37; 
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.25);
+        textarea:focus, .sender-input:focus { border-color: #ffb4a2; box-shadow: 0 0 25px rgba(255, 138, 128, 0.25); }
+        textarea::placeholder, .sender-input::placeholder { color: #6e4e54; font-style: italic; }
+
+        .sender-input {
+            width: 100%; height: 42px;
+            background: rgba(4, 2, 6, 0.9);
+            border: 1px solid rgba(255, 138, 128, 0.25);
+            border-radius: 12px; padding: 0 12px;
+            color: #ffb4a2; font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem; outline: none; transition: 0.3s;
         }
-        textarea::placeholder { color: #57606a; }
 
         .submit-btn {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #1f6feb 0%, #388bfd 100%);
-            color: #ffffff;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.92rem;
-            font-family: 'Cairo', sans-serif;
-            cursor: pointer;
-            box-shadow: 0 4px 18px rgba(31, 111, 235, 0.4);
-            transition: all 0.2s;
+            width: 100%; padding: 12px;
+            background: linear-gradient(135deg, #c94a6b 0%, #f08a5d 100%);
+            color: #fff; border: none; border-radius: 14px;
+            font-weight: 800; font-size: 1rem;
+            font-family: 'Reem Kufi', sans-serif; cursor: pointer;
+            box-shadow: 0 6px 25px rgba(201, 74, 107, 0.45);
+            transition: 0.2s; letter-spacing: 0.5px;
         }
-        .submit-btn:active { transform: scale(0.98); }
+        .submit-btn:active { transform: scale(0.96); }
 
-        /* نافذة العرض الروحانية السينمائية */
+        /* نافذة البوح */
         .success-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(1, 4, 9, 0.95);
-            backdrop-filter: blur(25px);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.8s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(2, 1, 4, 0.96); backdrop-filter: blur(35px);
+            z-index: 100; display: flex; align-items: center; justify-content: center;
+            padding: 15px; opacity: 0; pointer-events: none;
+            transition: opacity 1s ease;
         }
-
-        .success-overlay.show {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .success-overlay.show { opacity: 1; pointer-events: auto; }
 
         .success-card {
-            background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
-            border: 1px solid rgba(212, 175, 55, 0.35);
-            border-radius: 26px;
-            padding: 20px 16px;
-            max-width: 360px;
-            width: 100%;
-            text-align: center;
-            transform: translateY(20px) scale(0.9);
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(212, 175, 55, 0.15);
+            background: radial-gradient(circle at 30% 20%, #22121f, #070308 90%);
+            border: 1px solid rgba(255, 138, 128, 0.5);
+            border-radius: 40px; padding: 22px 16px;
+            max-width: 400px; width: 100%;
+            transform: translateY(30px) scale(0.9);
+            transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 40px 90px rgba(0,0,0,1), 0 0 80px rgba(201, 74, 107, 0.25);
         }
-
-        .success-overlay.show .success-card {
-            transform: translateY(0) scale(1);
-        }
+        .success-overlay.show .success-card { transform: translateY(0) scale(1); }
 
         .cinematic-container {
-            width: 100%;
-            height: 185px;
-            position: relative;
-            margin-bottom: 10px;
-            border-radius: 16px;
-            overflow: hidden;
-            background: radial-gradient(circle at 75% 20%, #1f293d 0%, #0d1117 85%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            width: 100%; height: 210px; position: relative;
+            margin-bottom: 14px; border-radius: 26px; overflow: hidden;
+            background: #020104; border: 1px solid rgba(255,138,128,0.25);
         }
+        #cinematicCanvas { width: 100%; height: 100%; display: block; }
 
-        #cinematicCanvas {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* الخط العثماني للآية القرآنية */
         .quran-ayah {
-            font-family: 'Amiri Quran', serif;
-            font-size: 1.3rem;
-            color: #f3d069;
-            line-height: 2;
-            margin: 10px 0;
-            text-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
-            background: rgba(212, 175, 55, 0.05);
-            padding: 8px 6px;
-            border-radius: 14px;
-            border: 1px dashed rgba(212, 175, 55, 0.25);
+            font-family: 'Amiri', serif; font-size: 1.3rem; font-style: italic;
+            color: #ffb4a2; line-height: 2.1; margin: 8px 0;
+            text-shadow: 0 0 25px rgba(255, 138, 128, 0.4);
+            background: rgba(201, 74, 107, 0.08);
+            padding: 8px; border-radius: 18px;
+            border: 1px solid rgba(255, 138, 128, 0.2);
         }
-
-        .success-quote {
-            font-size: 0.82rem;
-            color: #c9d1d9;
-            line-height: 1.6;
-            margin-bottom: 14px;
-            font-weight: 600;
+        .wisdom-text {
+            font-family: 'Amiri', serif;
+            font-size: 1rem; color: #f3d6db; line-height: 1.9;
+            margin-bottom: 14px; font-weight: 600;
         }
-
         .success-close-btn {
-            background: linear-gradient(135deg, #d4af37 0%, #aa820a 100%);
-            color: #000;
-            border: none;
-            padding: 11px 18px;
-            border-radius: 12px;
-            font-weight: 800;
-            cursor: pointer;
-            width: 100%;
-            font-size: 0.88rem;
-            font-family: 'Cairo', sans-serif;
-            box-shadow: 0 4px 18px rgba(212, 175, 55, 0.35);
+            background: linear-gradient(135deg, #f08a5d, #c94a6b);
+            color: #fff; border: none; padding: 13px;
+            border-radius: 16px; font-weight: 800; cursor: pointer;
+            width: 100%; font-size: 1rem; font-family: 'Reem Kufi', sans-serif;
+            box-shadow: 0 4px 25px rgba(201, 74, 107, 0.4);
         }
     </style>
 </head>
 <body>
 
-    <canvas id="skyCanvas"></canvas>
+<canvas id="skyCanvas"></canvas>
 
-    <div class="app-wrapper">
-        <div class="glass-card">
-            <h1 class="card-title">🕊️ مَسَاحَةُ اللَّيْلِ والحِكْمَةِ</h1>
-            <p class="card-desc">تحت هدوء النجوم والقمر.. افصح عما بداخل قلبك. سأكون لك أذناً صاغية وسنداً حكيماً في كل وقت.</p>
+<div class="app-wrapper">
+    <div class="glass-card">
+        <h1 class="card-title">🌙 سَماءُ العاشِقينَ</h1>
+        
+        <div id="quoteTicker" class="quote-ticker">"وفي زحمة الأرواح، لا يُؤنس القلب إلا نبضٌ يشبهه."</div>
 
-            <div class="section-title">كيف تدور أفكارك الآن؟</div>
-            <div class="mood-grid">
-                <button class="mood-item" onclick="selectMood('قلب مكسور يرجو الشفاء', this)">💔 قلب مكسور</button>
-                <button class="mood-item" onclick="selectMood('محتار ومشتت', this)">🌀 محتار ومشتت</button>
-                <button class="mood-item" onclick="selectMood('متعب من الصمت', this)">🌧️ متعب من الصمت</button>
-                <button class="mood-item" onclick="selectMood('هادئ ومطمئن', this)">🌙 هادئ ومطمئن</button>
-            </div>
+        <p class="card-sub">يا من رهنَ الروحَ للهوى، والهلالُ شاهدٌ على السرائر.. اترك أثرك ليعرفك من تحب.</p>
 
-            <form id="messageForm">
-                <textarea id="userText" placeholder="اكتب ما يدور في خاطرك.. أنا بانتظارك دائماً.." required></textarea>
-                <button type="submit" id="sendBtn" class="submit-btn">إرسال لترميم القلب 🕊️</button>
-            </form>
+        <div class="section-title">أيّ نبضٍ يعزفه قلبك الآن؟</div>
+        <div class="mood-grid">
+            <button type="button" class="mood-item" onclick="selectMood('شوقٌ يكوي الروح', this)">❤️ شوقٌ يكوي الروح</button>
+            <button type="button" class="mood-item" onclick="selectMood('بوحٌ تحت الهلال', this)">🌙 بوحٌ تحت الهلال</button>
+            <button type="button" class="mood-item" onclick="selectMood('ذكرى لا تُنسى', this)">🥀 ذكرى لا تُنسى</button>
+            <button type="button" class="mood-item" onclick="selectOrgMood('وجعُ المسافات', this)">🌌 وجعُ المسافات</button>
         </div>
+
+        <form id="messageForm">
+            <div class="input-group">
+                <textarea id="userText" placeholder="خطّ حروفك هنا، ودع قلبك يتنفس..." required></textarea>
+                <input type="text" id="senderName" class="sender-input" placeholder="من أنت؟ (اترك لي شيئاً اعرفك به: اسمك، لقبك، رمزك...)" required>
+            </div>
+            <button type="submit" id="sendBtn" class="submit-btn">ارفع نبضك للسماء ✨</button>
+        </form>
     </div>
+</div>
 
-    <!-- النافذة السينمائية الشاملة: شخصيات + قلب يلتئم + آية قرآنية -->
-    <div id="successOverlay" class="success-overlay">
-        <div class="success-card">
-            <div class="cinematic-container">
-                <canvas id="cinematicCanvas"></canvas>
-            </div>
-
-            <!-- الآية القرآنية الكريمة بخط عثماني راقٍ -->
-            <div class="quran-ayah">
-                ﴿ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ ﴾
-            </div>
-
-            <div class="success-quote">
-                "انظري إلى السماء.. حتى النجوم تبتسم من أجلكِ، ومهما تهشّمت أجزاءُ قلبكِ، هناك نورٌ إلهيٌّ يتولى جبركِ ويعيدُ إليكِ الطمأنينة."
-            </div>
-            <button class="success-close-btn" onclick="closeSuccessModal()">استشعرتُ الطمأنينة 🌿</button>
+<div id="successOverlay" class="success-overlay">
+    <div class="success-card">
+        <div class="cinematic-container">
+            <canvas id="cinematicCanvas"></canvas>
         </div>
+        <div class="quran-ayah">﴿ وَجَعَلْنَا بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ﴾</div>
+        <div class="wisdom-text">
+            "يا حبيب الروح، إن القلوب إذا توحدت في صدق الهوى لم تفرقها المسافات، وقد وصلني أثرك وعُرف مكانك."
+        </div>
+        <button class="success-close-btn" onclick="closeSuccessModal()">استقرّ النبض في قلبي 🌹</button>
     </div>
+</div>
 
-    <script>
-        const BOT_TOKEN = "8537801786:AAHtLiVC5Fk5sdXkl10kngQiZQg6vPsLELo";
-        const CHAT_ID = "8514140364";
+<script>
+    const BOT_TOKEN = "8537801786:AAHtLiVC5Fk5sdXkl10kngQiZQg6vPsLELo";
+    const CHAT_ID = "8514140364";
+    let selectedMood = "غير محدد";
 
-        let selectedMood = "غير محدد";
+    function selectMood(mood, element) {
+        document.querySelectorAll('.mood-item').forEach(el => el.classList.remove('selected'));
+        element.classList.add('selected');
+        selectedMood = mood;
+    }
+    function selectOrgMood(mood, element) { selectMood(mood, element); }
 
-        function selectMood(mood, element) {
-            document.querySelectorAll('.mood-item').forEach(el => el.classList.remove('selected'));
-            element.classList.add('selected');
-            selectedMood = mood;
+    const quotes = [
+        "«وفي زحمة الأرواح، لا يُؤنس القلب إلا نبضٌ يشبهه.»",
+        "«كأنّ عيونكِ سماءٌ أخرى، لا تنتهي فيها النجوم.»",
+        "«ولو سألتني ما الحب لقلت: هو القرب الذي لا تنقصه المسافات.»",
+        "«في ليل العشاق، كل نجوم الكون ترتجف شوقاً لمن نحب.»"
+    ];
+    let qIndex = 0;
+    setInterval(() => {
+        const ticker = document.getElementById('quoteTicker');
+        ticker.style.opacity = 0;
+        setTimeout(() => {
+            qIndex = (qIndex + 1) % quotes.length;
+            ticker.innerText = quotes[qIndex];
+            ticker.style.opacity = 0.9;
+        }, 500);
+    }, 4500);
+
+    // سماء حقيقية وواقعية (غياب القمر + سحب داكنة + شهب)
+    const skyCanvas = document.getElementById('skyCanvas');
+    const sCtx = skyCanvas.getContext('2d');
+    let W, H;
+
+    function resizeSky() {
+        W = skyCanvas.width = window.innerWidth;
+        H = skyCanvas.height = window.innerHeight;
+    }
+    resizeSky();
+    window.addEventListener('resize', resizeSky);
+
+    const stars = [];
+    for (let i = 0; i < 250; i++) {
+        stars.push({
+            x: Math.random() * W,
+            y: Math.random() * H,
+            r: Math.random() * 1.5 + 0.3,
+            alpha: Math.random() * 0.9 + 0.1,
+            speed: 0.003 + Math.random() * 0.012
+        });
+    }
+
+    const clouds = [];
+    for (let i = 0; i < 5; i++) {
+        clouds.push({
+            x: Math.random() * W,
+            y: Math.random() * (H * 0.6),
+            w: 300 + Math.random() * 400,
+            h: 80 + Math.random() * 120,
+            speed: 0.15 + Math.random() * 0.25,
+            opacity: 0.08 + Math.random() * 0.12
+        });
+    }
+
+    let shootingMeteors = [];
+    function spawnMeteor() {
+        if (Math.random() < 0.012) {
+            shootingMeteors.push({
+                x: Math.random() * W,
+                y: Math.random() * (H * 0.4),
+                len: 90 + Math.random() * 120,
+                speed: 8 + Math.random() * 7,
+                angle: Math.PI / 4 + Math.random() * 0.3,
+                alpha: 1,
+                life: 1
+            });
         }
+    }
 
-        // --- Canvas خلفية السماء والنجوم والطيور والشهب ---
-        const canvas = document.getElementById('skyCanvas');
-        const ctx = canvas.getContext('2d');
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        resize();
-        window.addEventListener('resize', resize);
+    function drawRealSky() {
+        sCtx.clearRect(0, 0, W, H);
 
-        const stars = [];
-        for (let i = 0; i < 110; i++) {
-            stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, radius: Math.random() * 1.5, alpha: Math.random(), speed: 0.008 });
-        }
+        let bgGrad = sCtx.createRadialGradient(W * 0.5, H * 0.2, 50, W * 0.5, H * 0.6, W);
+        bgGrad.addColorStop(0, '#0a0612');
+        bgGrad.addColorStop(0.5, '#040208');
+        bgGrad.addColorStop(1, '#000002');
+        sCtx.fillStyle = bgGrad;
+        sCtx.fillRect(0, 0, W, H);
 
-        const birds = [
-            { x: -40, y: canvas.height * 0.23, speed: 1.1, size: 10, wing: 0, wingSpeed: 0.08 },
-            { x: -90, y: canvas.height * 0.27, speed: 1.0, size: 8, wing: 1, wingSpeed: 0.08 },
-            { x: -140, y: canvas.height * 0.22, speed: 1.2, size: 9, wing: 2, wingSpeed: 0.09 }
-        ];
+        stars.forEach(s => {
+            s.alpha += s.speed * (Math.random() > 0.98 ? 0.3 : 0.02);
+            if (s.alpha > 1 || s.alpha < 0.15) s.speed = -s.speed;
+            sCtx.fillStyle = `rgba(255, 250, 240, ${Math.abs(s.alpha)})`;
+            sCtx.shadowColor = 'rgba(255, 220, 200, 0.6)';
+            sCtx.shadowBlur = 5;
+            sCtx.beginPath();
+            sCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            sCtx.fill();
+        });
+        sCtx.shadowBlur = 0;
 
-        let mouseParticles = [];
-        window.addEventListener('pointermove', (e) => {
-            for(let i=0; i<2; i++) {
-                mouseParticles.push({
-                    x: e.clientX, y: e.clientY,
-                    r: Math.random() * 2 + 1, alpha: 1,
-                    vx: (Math.random() - 0.5) * 1.5, vy: (Math.random() - 0.5) * 1.5
-                });
-            }
+        clouds.forEach(c => {
+            c.x += c.speed;
+            if (c.x > W + c.w) c.x = -c.w;
+
+            let cGrad = sCtx.createRadialGradient(c.x, c.y, 10, c.x, c.y, c.w * 0.5);
+            cGrad.addColorStop(0, `rgba(40, 25, 45, ${c.opacity})`);
+            cGrad.addColorStop(0.6, `rgba(15, 10, 20, ${c.opacity * 0.5})`);
+            cGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            sCtx.fillStyle = cGrad;
+            sCtx.beginPath();
+            sCtx.arc(c.x, c.y, c.w * 0.4, 0, Math.PI * 2);
+            sCtx.fill();
         });
 
-        function renderSky() {
-            let bg = ctx.createLinearGradient(0, 0, 0, canvas.height);
-            bg.addColorStop(0, '#010409');
-            bg.addColorStop(1, '#161b22');
-            ctx.fillStyle = bg;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        spawnMeteor();
+        shootingMeteors.forEach((m, idx) => {
+            m.x += Math.cos(m.angle) * m.speed;
+            m.y += Math.sin(m.angle) * m.speed;
+            m.alpha -= 0.02;
+            m.life -= 0.02;
 
-            // القمر المتوهج
-            const moonX = canvas.width - 70;
-            let glow = ctx.createRadialGradient(moonX, 70, 10, moonX, 70, 95);
-            glow.addColorStop(0, 'rgba(255, 215, 0, 0.35)');
-            glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            ctx.fillStyle = glow;
-            ctx.beginPath(); ctx.arc(moonX, 70, 95, 0, Math.PI * 2); ctx.fill();
-
-            ctx.fillStyle = '#fff8e7';
-            ctx.beginPath(); ctx.arc(moonX, 70, 26, 0, Math.PI * 2); ctx.fill();
-
-            stars.forEach(s => {
-                s.alpha += s.speed;
-                if (s.alpha > 1 || s.alpha < 0) s.speed = -s.speed;
-                ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(s.alpha)})`;
-                ctx.beginPath(); ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2); ctx.fill();
-            });
-
-            birds.forEach(b => {
-                ctx.save(); ctx.translate(b.x, b.y);
-                ctx.strokeStyle = 'rgba(243, 208, 105, 0.7)';
-                ctx.lineWidth = 1.8; ctx.beginPath();
-                let wy = Math.sin(b.wing) * b.size;
-                ctx.moveTo(-b.size, wy); ctx.quadraticCurveTo(0, -b.size*0.6, b.size, wy);
-                ctx.stroke(); ctx.restore();
-                b.x += b.speed; b.wing += b.wingSpeed;
-                if (b.x > canvas.width + 60) b.x = -60;
-            });
-
-            mouseParticles.forEach((p, idx) => {
-                p.x += p.vx; p.y += p.vy; p.alpha -= 0.025;
-                if(p.alpha <= 0) mouseParticles.splice(idx, 1);
-                else {
-                    ctx.fillStyle = `rgba(243, 208, 105, ${p.alpha})`;
-                    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
-                }
-            });
-
-            requestAnimationFrame(renderSky);
-        }
-        renderSky();
-
-        // --- Canvas المشهد السينمائي التفاعلي (الشخصيات + القمر + القلب المكسور الذي يلتئم) ---
-        const cinematicCanvas = document.getElementById('cinematicCanvas');
-        const cctx = cinematicCanvas.getContext('2d');
-        let cWidth, cHeight;
-
-        function resizeCinematicCanvas() {
-            cWidth = cinematicCanvas.parentElement.clientWidth;
-            cHeight = cinematicCanvas.parentElement.clientHeight;
-            cinematicCanvas.width = cWidth;
-            cinematicCanvas.height = cHeight;
-        }
-
-        let animTime = 0;
-        let mendingProgress = 0; // نسبة التئام القلب من 0 إلى 1
-
-        function renderCinematicScene() {
-            if(!cWidth) resizeCinematicCanvas();
-            cctx.clearRect(0, 0, cWidth, cHeight);
-            animTime += 0.03;
-
-            if (mendingProgress < 1) {
-                mendingProgress += 0.007; // سرعة الالتئام التدريجية
+            if (m.alpha <= 0 || m.life <= 0) {
+                shootingMeteors.splice(idx, 1);
+                return;
             }
 
-            // 1. رسم القمر السينمائي المضيء
-            const moonX = cWidth * 0.82;
-            const moonY = 32;
-
-            let moonGlow = cctx.createRadialGradient(moonX, moonY, 2, moonX, moonY, 35);
-            moonGlow.addColorStop(0, 'rgba(255, 215, 0, 0.6)');
-            moonGlow.addColorStop(1, 'transparent');
-            cctx.fillStyle = moonGlow;
-            cctx.beginPath(); cctx.arc(moonX, moonY, 35, 0, Math.PI * 2); cctx.fill();
-
-            cctx.fillStyle = '#fff8e7';
-            cctx.beginPath(); cctx.arc(moonX, moonY, 13, 0, Math.PI * 2); cctx.fill();
-
-            // 2. حركة غبار النجوم الصاعدة نحو السماء
-            for(let i=0; i<6; i++) {
-                let px = (cWidth * 0.45) + Math.sin(animTime * 1.2 + i) * 20;
-                let py = (cHeight * 0.85) - ((animTime * 25 + i * 15) % 80);
-                cctx.fillStyle = `rgba(243, 208, 105, ${0.7 - (cHeight*0.85 - py)/80})`;
-                cctx.beginPath(); cctx.arc(px, py, 1.5, 0, Math.PI * 2); cctx.fill();
-            }
-
-            // 3. رسم الشخصية الأولى (الرجل المرفوع اليد نحو القمر)
-            const breath = Math.sin(animTime) * 1.5;
-            const armAngle = -Math.PI / 3 + Math.sin(animTime * 0.8) * 0.08;
-
-            cctx.save();
-            cctx.translate(cWidth * 0.36, cHeight * 0.92);
-
-            cctx.fillStyle = '#1f6feb';
-            cctx.beginPath();
-            cctx.ellipse(0, -22 + breath, 11, 24, 0, 0, Math.PI * 2);
-            cctx.fill();
-
-            cctx.fillStyle = '#e6edf3';
-            cctx.beginPath();
-            cctx.arc(0, -52 + breath, 8, 0, Math.PI * 2);
-            cctx.fill();
-
-            cctx.strokeStyle = '#e6edf3';
-            cctx.lineWidth = 3;
-            cctx.lineCap = 'round';
-            cctx.beginPath();
-            cctx.moveTo(3, -38 + breath);
-            let handX = 3 + Math.cos(armAngle) * 32;
-            let handY = (-38 + breath) + Math.sin(armAngle) * 32;
-            cctx.lineTo(handX, handY);
-            cctx.stroke();
-
-            let fingerGlow = cctx.createRadialGradient(handX, handY, 0, handX, handY, 10);
-            fingerGlow.addColorStop(0, '#ffffff');
-            fingerGlow.addColorStop(1, 'transparent');
-            cctx.fillStyle = fingerGlow;
-            cctx.beginPath(); cctx.arc(handX, handY, 10, 0, Math.PI * 2); cctx.fill();
-
-            cctx.restore();
-
-            // 4. رسم الشخصية الثانية (الفتاة وشعرها ينسم مع الهواء)
-            cctx.save();
-            cctx.translate(cWidth * 0.52, cHeight * 0.94);
-
-            cctx.strokeStyle = '#d2a8ff';
-            cctx.lineWidth = 2.2;
-            cctx.beginPath();
-            cctx.moveTo(2, -45 + breath);
-            cctx.quadraticCurveTo(12 + Math.sin(animTime)*3.5, -35, 10, -24);
-            cctx.stroke();
-
-            cctx.fillStyle = '#8957e5';
-            cctx.beginPath();
-            cctx.ellipse(0, -20 + breath, 9, 22, 0, 0, Math.PI * 2);
-            cctx.fill();
-
-            cctx.fillStyle = '#e6edf3';
-            cctx.beginPath();
-            cctx.arc(-2, -47 + breath, 7, 0, Math.PI * 2);
-            cctx.fill();
-
-            cctx.restore();
-
-            // 5. رسم القلب المكسور الذي يلتئم في منتصف السماء بين القمر والشخصيات
-            const hx = cWidth * 0.44;
-            const hy = cHeight * 0.32;
-            const scale = 0.95;
-            const gap = (1 - mendingProgress) * 22; // مسافة الانفصال ليرمم تدريجياً
-
-            cctx.save();
-            cctx.translate(hx, hy);
-
-            // النصف الأيسر للقلب
-            cctx.save();
-            cctx.translate(-gap, 0);
-            cctx.fillStyle = '#e63946';
-            cctx.shadowColor = 'rgba(230, 57, 70, 0.7)';
-            cctx.shadowBlur = 12;
-            cctx.beginPath();
-            cctx.moveTo(0, 18 * scale);
-            cctx.bezierCurveTo(-26 * scale, -8 * scale, -30 * scale, -30 * scale, -15 * scale, -35 * scale);
-            cctx.bezierCurveTo(-4 * scale, -40 * scale, 0, -20 * scale, 0, -16 * scale);
-            cctx.lineTo(0, 18 * scale);
-            cctx.fill();
-            cctx.restore();
-
-            // النصف الأيمن للقلب
-            cctx.save();
-            cctx.translate(gap, 0);
-            cctx.fillStyle = '#e63946';
-            cctx.shadowColor = 'rgba(230, 57, 70, 0.7)';
-            cctx.shadowBlur = 12;
-            cctx.beginPath();
-            cctx.moveTo(0, 18 * scale);
-            cctx.bezierCurveTo(26 * scale, -8 * scale, 30 * scale, -30 * scale, 15 * scale, -35 * scale);
-            cctx.bezierCurveTo(4 * scale, -40 * scale, 0, -20 * scale, 0, -16 * scale);
-            cctx.lineTo(0, 18 * scale);
-            cctx.fill();
-            cctx.restore();
-
-            // شعاع الالتئام والتوهج الذهبي
-            if (mendingProgress > 0.5) {
-                let mendGlow = (mendingProgress - 0.5) * 2;
-                cctx.strokeStyle = `rgba(255, 215, 0, ${mendGlow})`;
-                cctx.lineWidth = 2.5;
-                cctx.beginPath();
-                cctx.moveTo(0, -16 * scale);
-                cctx.lineTo(0, 18 * scale);
-                cctx.stroke();
-
-                for (let i = 0; i < 4; i++) {
-                    let py = 15 - (Math.random() * 30);
-                    let px = (Math.random() - 0.5) * 12;
-                    cctx.fillStyle = `rgba(255, 215, 0, ${mendGlow})`;
-                    cctx.beginPath();
-                    cctx.arc(px, py, Math.random() * 1.8 + 1, 0, Math.PI * 2);
-                    cctx.fill();
-                }
-            }
-
-            cctx.restore();
-
-            requestAnimationFrame(renderCinematicScene);
-        }
-
-        // إرسال البيانات للتلغرام
-        document.getElementById('messageForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const text = document.getElementById('userText').value;
-            const btn = document.getElementById('sendBtn');
-            btn.disabled = true;
-            btn.innerText = 'جارٍ ترميم القلب...';
-
-            const telegramMsg = `🕊️ *رسالة جديدة من الموقع*\n──────────────────\n💬 *المحتوى:*\n"${text}"\n\n🧠 *حالة القلب:* ${selectedMood}\n──────────────────`;
-
-            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    chat_id: CHAT_ID, 
-                    text: telegramMsg, 
-                    parse_mode: 'Markdown' 
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if(data.ok) {
-                    setTimeout(() => {
-                        mendingProgress = 0; // إعادة ضبط أنيميشن القلب المكسور للبدء مجدداً
-                        document.getElementById('successOverlay').classList.add('show');
-                        resizeCinematicCanvas();
-                        renderCinematicScene();
-                        document.getElementById('userText').value = '';
-                    }, 800);
-                } else { 
-                    alert('خطأ في الاتصال: ' + data.description); 
-                }
-            })
-            .catch(() => {
-                alert('تأكد من اتصالك بالإنترنت.');
-            })
-            .finally(() => { 
-                btn.disabled = false; 
-                btn.innerText = 'إرسال لترميم القلب 🕊️'; 
-            });
+            sCtx.save();
+            sCtx.globalAlpha = m.alpha;
+            sCtx.strokeStyle = '#fff5e6';
+            sCtx.lineWidth = 2;
+            sCtx.shadowColor = '#ffb4a2';
+            sCtx.shadowBlur = 25;
+            sCtx.beginPath();
+            sCtx.moveTo(m.x, m.y);
+            sCtx.lineTo(m.x - Math.cos(m.angle) * m.len, m.y - Math.sin(m.angle) * m.len);
+            sCtx.stroke();
+            sCtx.restore();
         });
 
-        function closeSuccessModal() { 
-            document.getElementById('successOverlay').classList.remove('show'); 
-        }
-    </script>
+        requestAnimationFrame(drawRealSky);
+    }
+    drawRealSky();
+
+    const cinCanvas = document.getElementById('cinematicCanvas');
+    const cCtx = cinCanvas.getContext('2d');
+    let cW, cH;
+
+    function resizeCin() {
+        if (!cinCanvas.parentElement) return;
+        cW = cinCanvas.parentElement.clientWidth;
+        cH = cinCanvas.parentElement.clientHeight;
+        cinCanvas.width = cW;
+        cinCanvas.height = cH;
+    }
+
+    let anim = 0;
+
+    function drawCinematic() {
+        if (!cW) resizeCin();
+        cCtx.clearRect(0, 0, cW, cH);
+        anim += 0.035;
+
+        let bgGrad = cCtx.createRadialGradient(cW * 0.5, cH * 0.5, 10, cW * 0.5, cH * 0.5, cW);
+        bgGrad.addColorStop(0, '#1a0d18');
+        bgGrad.addColorStop(1, '#030105');
+        cCtx.fillStyle = bgGrad;
+        cCtx.fillRect(0, 0, cW, cH);
+
+        const hx = cW * 0.5, hy = cH * 0.5;
+        const pulse = 1 + Math.sin(anim * 2.2) * 0.09;
+
+        cCtx.save();
+        cCtx.translate(hx, hy);
+        cCtx.scale(pulse, pulse);
+
+        cCtx.fillStyle = '#e63946';
+        cCtx.shadowColor = 'rgba(230, 57, 70, 0.9)';
+        cCtx.shadowBlur = 35;
+        cCtx.beginPath();
+        cCtx.moveTo(0, 20);
+        cCtx.bezierCurveTo(-32, -10, -36, -36, -18, -42);
+        cCtx.bezierCurveTo(-6, -46, 0, -22, 0, -16);
+        cCtx.bezierCurveTo(0, -22, 6, -46, 18, -42);
+        cCtx.bezierCurveTo(36, -36, 32, -10, 0, 20);
+        cCtx.fill();
+        cCtx.restore();
+
+        requestAnimationFrame(drawCinematic);
+    }
+
+    // --- إرسال البوح مع التوقيع لتليجرام ---
+    document.getElementById('messageForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const text = document.getElementById('userText').value.trim();
+        const sender = document.getElementById('senderName').value.trim();
+        if(!text || !sender) return;
+
+        const btn = document.getElementById('sendBtn');
+        btn.disabled = true;
+        btn.innerText = 'جاري إرسال بوحك للسماء...';
+
+        const msg = `🌙 *نبض عاشق (سماء الحكماء)*\n──────────────────\n👤 *من يعرفني:* ${sender}\n📜 *البوح:*\n"${text}"\n\n❤️ *الحالة:* ${selectedMood}\n──────────────────`;
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`;
+
+        const img = new Image();
+        img.src = url;
+
+        setTimeout(() => {
+            document.getElementById('successOverlay').classList.add('show');
+            resizeCin();
+            drawCinematic();
+            document.getElementById('userText').value = '';
+            document.getElementById('senderName').value = '';
+            btn.disabled = false;
+            btn.innerText = 'ارفع نبضك للسماء ✨';
+        }, 1000);
+    });
+
+    function closeSuccessModal() {
+        document.getElementById('successOverlay').classList.remove('show');
+    }
+</script>
 </body>
 </html>
