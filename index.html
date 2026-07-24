@@ -3,201 +3,489 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>سَماءُ العاشِقينَ - نَبضُ الوِداد</title>
-    <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>أَشْقَى العُشَّاقِ فِي مَدِينَةِ الرِّيح.. رِوَايَةُ النَّبْضِ الأَخِيرِ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;800&family=Lateef&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body, html { width: 100%; height: 100%; overflow: hidden; font-family: 'Cairo', sans-serif; background: #020104; color: #fceee9; }
+        body, html { width: 100%; height: 100%; overflow: hidden; font-family: 'Cairo', sans-serif; background: #010103; color: #fceee9; }
 
-        #skyCanvas {
+        #hyperCanvas {
             position: fixed; top: 0; left: 0;
             width: 100%; height: 100%;
             z-index: 1;
+            transition: filter 1.5s ease;
+        }
+
+        /* واجهة البداية السينمائية الفاخرة */
+        .gateway-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+            padding-bottom: 7vh; text-align: center; pointer-events: auto;
+            transition: opacity 1.5s ease;
+            background: radial-gradient(circle at center, rgba(15, 5, 25, 0.1) 0%, rgba(1, 1, 3, 0.65) 100%);
+        }
+
+        .mystic-badge {
+            font-family: 'Amiri', serif; font-size: 0.92rem; font-style: italic;
+            color: #ffecd0; margin-bottom: 15px; letter-spacing: 1.5px;
+            text-shadow: 0 0 25px rgba(255,190,140,0.9);
+            animation: pulseBadge 3s infinite alternate;
+        }
+        @keyframes pulseBadge {
+            0% { opacity: 0.75; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1.02); }
+        }
+
+        .royal-gateway-btn {
+            position: relative;
+            background: linear-gradient(135deg, rgba(40, 12, 30, 0.95), rgba(12, 4, 18, 0.98));
+            border: 1px solid rgba(255, 190, 140, 0.65);
+            border-radius: 40px;
+            padding: 16px 30px;
+            color: #ffecd0;
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.95), inset 0 0 25px rgba(255, 190, 120, 0.25);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            letter-spacing: 0.8px;
+            outline: none;
+            overflow: hidden;
+            width: 88%; max-width: 420px;
+        }
+
+        .royal-gateway-btn::before {
+            content: '';
+            position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 200, 160, 0.35), transparent);
+            transition: 0.8s;
+        }
+
+        .royal-gateway-btn:hover {
+            transform: scale(1.03);
+            border-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 25px 70px rgba(217, 78, 106, 0.55), inset 0 0 35px rgba(255, 200, 160, 0.45);
+            color: #ffffff;
+        }
+
+        .royal-gateway-btn:hover::before { left: 100%; }
+        .royal-gateway-btn:active { transform: scale(0.97); }
+
+        .gateway-container.hide { opacity: 0; pointer-events: none; }
+
+        /* نافذة الكتاب الملكي */
+        .book-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(2, 1, 5, 0.97); backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            z-index: 100; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 1s ease;
+        }
+        .book-page {
+            position: relative;
+            background: radial-gradient(circle at center, #fffaf4 0%, #f4e2d3 100%);
+            border: 12px solid #361f17;
+            border-radius: 25px; padding: 35px 25px;
+            max-width: 480px; width: 92%;
+            box-shadow: 0 30px 90px rgba(0,0,0,1), inset 0 0 40px rgba(130, 80, 60, 0.2);
+            transform: translateY(50px) scale(0.92);
+            transition: all 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+        }
+        .book-overlay.show { opacity: 1; pointer-events: auto; }
+        .book-overlay.show .book-page { transform: translateY(0) scale(1); }
+
+        .book-title {
+            font-family: 'Lateef', serif;
+            font-size: 2.5rem; color: #4a121e; margin-bottom: 10px;
+            line-height: 1.1; text-shadow: 2px 2px 4px rgba(70, 15, 25, 0.15);
+        }
+        .book-quote {
+            font-family: 'Amiri', serif; font-size: 1.1rem; color: #261610;
+            line-height: 1.8; border-top: 2px solid #825f4e; border-bottom: 2px solid #825f4e;
+            padding: 16px 0; margin-bottom: 15px; font-style: italic; text-align: justify;
+        }
+        
+        .book-coming-soon {
+            font-family: 'Cairo', sans-serif; font-size: 0.75rem; color: #825f4e;
+            letter-spacing: 1px; margin-bottom: 18px; font-weight: 700;
+        }
+
+        .book-close-btn {
+            background: linear-gradient(135deg, #7a1529, #4a121e);
+            color: #fff; border: none; padding: 12px 20px;
+            border-radius: 14px; font-weight: 800; font-size: 1.02rem;
+            font-family: 'Reem Kufi', sans-serif; cursor: pointer;
+            box-shadow: 0 8px 30px rgba(122, 21, 41, 0.6);
+            transition: 0.4s; letter-spacing: 0.8px; width: 100%;
+        }
+        .book-close-btn:active { transform: scale(0.95); }
+
+        .book-page.sink {
+            animation: sinkBook 2.5s forwards cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        }
+        @keyframes sinkBook {
+            0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+            100% { transform: translateY(350px) rotate(18deg) scale(0.2); opacity: 0; filter: blur(10px); }
         }
 
         .app-wrapper {
             position: relative; z-index: 2;
             width: 100%; height: 100%;
             display: flex; align-items: center; justify-content: center;
-            padding: 15px;
+            padding: 20px; opacity: 0; pointer-events: none;
+            transition: opacity 1.5s ease, transform 1.5s ease;
+            transform: scale(0.97);
         }
+        .app-wrapper.show { opacity: 1; pointer-events: auto; transform: scale(1); }
 
         .glass-card {
             position: relative;
-            background: rgba(10, 6, 16, 0.82);
-            backdrop-filter: blur(28px);
-            -webkit-backdrop-filter: blur(28px);
-            border-radius: 38px;
-            padding: 24px 18px;
-            max-width: 420px;
-            width: 100%;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.95), inset 0 0 50px rgba(255, 138, 128, 0.05);
-            border: 1px solid rgba(255, 138, 128, 0.4);
+            background: rgba(5, 2, 8, 0.90);
+            backdrop-filter: blur(50px);
+            -webkit-backdrop-filter: blur(50px);
+            border-radius: 40px;
+            padding: 25px 22px;
+            max-width: 440px; width: 100%;
+            box-shadow: 0 60px 130px rgba(0,0,0,1), inset 0 0 70px rgba(255, 190, 140, 0.05);
+            border: 1px solid rgba(255, 190, 140, 0.4);
             text-align: center;
-            animation: borderGlow 6s ease-in-out infinite;
+            transition: all 0.8s ease;
         }
-        @keyframes borderGlow {
-            0% { border-color: rgba(255, 138, 128, 0.3); box-shadow: 0 0 30px rgba(255, 138, 128, 0.05); }
-            50% { border-color: rgba(255, 183, 178, 0.75); box-shadow: 0 0 80px rgba(255, 138, 128, 0.25); }
-            100% { border-color: rgba(255, 138, 128, 0.3); box-shadow: 0 0 30px rgba(255, 138, 128, 0.05); }
+
+        .glass-card.eclipse-mode {
+            background: rgba(1, 0, 3, 0.98);
+            border-color: rgba(255, 215, 160, 0.85);
+            box-shadow: 0 70px 150px rgba(0,0,0,1), 0 0 90px rgba(217, 78, 106, 0.25), inset 0 0 50px rgba(255, 215, 160, 0.1);
+        }
+
+        .card-title-row {
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px;
         }
 
         .card-title {
             font-family: 'Reem Kufi', sans-serif;
-            font-size: 1.85rem; font-weight: 700; color: #ffb4a2;
-            text-shadow: 0 0 30px rgba(255, 180, 162, 0.5);
-            letter-spacing: 1px;
+            font-size: 1.5rem; font-weight: 700; color: #ffecd0;
+            text-shadow: 0 0 40px rgba(255, 190, 140, 0.7);
+            letter-spacing: 0.5px;
+        }
+
+        .map-btn {
+            background: rgba(217, 78, 106, 0.2);
+            border: 1px solid rgba(255, 190, 140, 0.5);
+            border-radius: 50%; width: 35px; height: 35px;
+            display: flex; align-items: center; justify-content: center;
+            color: #ffecd0; cursor: pointer; font-size: 0.9rem;
+            transition: 0.3s; box-shadow: 0 0 15px rgba(217, 78, 106, 0.3);
+        }
+        .map-btn:hover { background: rgba(217, 78, 106, 0.4); transform: scale(1.1); }
+
+        .resonance-counter {
+            font-family: 'Amiri', serif; font-size: 0.83rem; font-style: italic;
+            color: #ffb3a7; margin-bottom: 4px;
+            text-shadow: 0 0 15px rgba(255, 100, 100, 0.5);
         }
 
         .quote-ticker {
-            font-family: 'Amiri', serif;
-            font-size: 0.9rem; font-style: italic;
-            color: #ffd8d3; min-height: 35px;
-            margin: 4px 0 10px; display: flex; align-items: center; justify-content: center;
-            opacity: 0.9; transition: opacity 0.8s ease;
-            text-shadow: 0 0 15px rgba(255, 138, 128, 0.3);
+            font-family: 'Amiri', serif; font-size: 0.88rem; font-style: italic;
+            color: #ffd8d0; min-height: 23px;
+            margin: 2px 0 4px; display: flex; align-items: center; justify-content: center;
+            opacity: 0.9; transition: opacity 1s ease;
         }
 
         .card-sub {
-            font-family: 'Amiri', serif;
-            font-style: italic;
-            font-size: 1rem; color: #e2c2c6; margin: 0 0 12px;
-            line-height: 1.7;
-            border-bottom: 1px dashed rgba(255,138,128,0.2); padding-bottom: 8px;
+            font-family: 'Amiri', serif; font-style: italic;
+            font-size: 0.86rem; color: #e8d2cc; margin: 0 0 5px;
+            line-height: 1.3;
+            border-bottom: 1px dashed rgba(255,190,140,0.3); padding-bottom: 4px;
         }
+
         .section-title {
-            font-size: 0.82rem; color: #ffb4a2; margin-bottom: 8px;
+            font-size: 0.74rem; color: #ffecd0; margin-bottom: 2px;
             text-align: right; font-weight: 700;
-        }
-        .mood-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 10px;
-        }
-        .mood-item {
-            background: rgba(25, 12, 22, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 14px; padding: 10px 6px;
-            color: #d1b3b8; font-size: 0.85rem; font-weight: 700;
-            cursor: pointer; transition: all 0.3s ease;
-            font-family: 'Cairo', sans-serif;
-        }
-        .mood-item:hover, .mood-item.selected {
-            background: rgba(255, 138, 128, 0.2);
-            border-color: #ffb4a2; color: #ffb4a2;
-            box-shadow: 0 0 20px rgba(255, 138, 128, 0.3);
-            transform: scale(1.02);
         }
 
         .input-group {
-            display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;
+            display: flex; flex-direction: column; gap: 4px; margin-bottom: 5px;
         }
-        textarea {
-            width: 100%; height: 75px;
-            background: rgba(4, 2, 6, 0.9);
-            border: 1px solid rgba(255, 138, 128, 0.25);
-            border-radius: 14px; padding: 10px;
-            color: #fceee9; font-family: 'Amiri', serif;
-            font-size: 1rem; resize: none; outline: none; transition: 0.3s;
-        }
-        textarea:focus, .sender-input:focus { border-color: #ffb4a2; box-shadow: 0 0 25px rgba(255, 138, 128, 0.25); }
-        textarea::placeholder, .sender-input::placeholder { color: #6e4e54; font-style: italic; }
-
-        .sender-input {
-            width: 100%; height: 42px;
-            background: rgba(4, 2, 6, 0.9);
-            border: 1px solid rgba(255, 138, 128, 0.25);
+        
+        .receiver-input, .sender-input, .city-input {
+            width: 100%; height: 31px;
+            background: rgba(3, 1, 6, 0.95);
+            border: 1px solid rgba(255, 190, 140, 0.4);
             border-radius: 12px; padding: 0 12px;
-            color: #ffb4a2; font-family: 'Cairo', sans-serif;
-            font-size: 0.9rem; outline: none; transition: 0.3s;
+            color: #ffecd0; font-family: 'Cairo', sans-serif;
+            font-size: 0.82rem; outline: none; transition: 0.4s;
+        }
+
+        textarea {
+            width: 100%; height: 52px;
+            background: rgba(3, 1, 6, 0.95);
+            border: 1px solid rgba(255, 190, 140, 0.4);
+            border-radius: 12px; padding: 6px 12px;
+            color: #fceee9; font-family: 'Amiri', serif;
+            font-size: 0.86rem; resize: none; outline: none; transition: 0.4s;
+        }
+        textarea:focus, input:focus { border-color: #ffecd0; box-shadow: 0 0 30px rgba(255, 190, 140, 0.4); }
+        textarea::placeholder, input::placeholder { color: #9e6b75; font-style: italic; }
+
+        .dev-watermark {
+            font-size: 0.68rem; color: rgba(255, 190, 140, 0.55);
+            font-family: 'Amiri', serif; margin-top: 5px; letter-spacing: 0.8px;
         }
 
         .submit-btn {
-            width: 100%; padding: 12px;
-            background: linear-gradient(135deg, #c94a6b 0%, #f08a5d 100%);
+            width: 100%; padding: 8px;
+            background: linear-gradient(135deg, #d94e6a 0%, #f78452 100%);
             color: #fff; border: none; border-radius: 14px;
-            font-weight: 800; font-size: 1rem;
+            font-weight: 800; font-size: 0.92rem;
             font-family: 'Reem Kufi', sans-serif; cursor: pointer;
-            box-shadow: 0 6px 25px rgba(201, 74, 107, 0.45);
-            transition: 0.2s; letter-spacing: 0.5px;
+            box-shadow: 0 8px 35px rgba(217, 78, 106, 0.6);
+            transition: 0.4s; letter-spacing: 0.8px; margin-top: 2px;
         }
-        .submit-btn:active { transform: scale(0.96); }
+        .submit-btn:active { transform: scale(0.95); }
+
+        .global-pulse-flash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(217, 78, 106, 0.6) 0%, rgba(0,0,0,0) 80%);
+            z-index: 80; opacity: 0; pointer-events: none;
+            transition: opacity 1.2s ease;
+        }
+        .global-pulse-flash.active { opacity: 1; }
+
+        .pulse-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(2, 1, 5, 0.98); backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            z-index: 90; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.8s ease;
+        }
+        .pulse-overlay.show { opacity: 1; pointer-events: auto; }
+        
+        .real-heart-container { width: 130px; height: 130px; position: relative; margin-bottom: 12px; }
+        #realHeartCanvas { width: 100%; height: 100%; display: block; }
+
+        .pulse-status-text {
+            font-family: 'Amiri', serif; font-size: 1.1rem; font-style: italic;
+            color: #ffecd0; text-shadow: 0 0 30px rgba(255, 190, 140, 0.8);
+            text-align: center; max-width: 340px; line-height: 1.4;
+        }
+
+        .map-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(2, 1, 6, 0.97); backdrop-filter: blur(50px);
+            -webkit-backdrop-filter: blur(50px);
+            z-index: 150; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.6s ease;
+        }
+        .map-overlay.show { opacity: 1; pointer-events: auto; }
+        .map-box {
+            background: radial-gradient(circle at center, #15051a, #030105);
+            border: 1px solid rgba(255, 190, 140, 0.6);
+            border-radius: 30px; padding: 25px 20px;
+            max-width: 420px; width: 92%; text-align: center;
+            box-shadow: 0 40px 100px rgba(0,0,0,1);
+        }
+        .map-title { font-family: 'Reem Kufi', sans-serif; font-size: 1.3rem; color: #ffecd0; margin-bottom: 8px; }
+        .map-subtitle { font-family: 'Amiri', serif; font-size: 0.85rem; color: #ffb3a7; margin-bottom: 15px; font-style: italic; }
+        .cities-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; }
+        .city-node-btn {
+            background: rgba(255, 190, 140, 0.1); border: 1px solid rgba(255, 190, 140, 0.3);
+            border-radius: 12px; padding: 10px; color: #ffecd0; font-family: 'Cairo', sans-serif;
+            font-size: 0.85rem; cursor: pointer; transition: 0.3s; text-align: center;
+        }
+        .city-node-btn:hover { background: rgba(217, 78, 106, 0.3); border-color: #ffecd0; }
+        .city-message-display {
+            font-family: 'Amiri', serif; font-size: 0.9rem; color: #ffd8d0; font-style: italic;
+            background: rgba(0,0,0,0.5); border: 1px dashed rgba(255,190,140,0.4);
+            padding: 12px; border-radius: 12px; min-height: 50px; margin-bottom: 15px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .map-close-btn {
+            background: linear-gradient(135deg, #d94e6a, #f78452); color: #fff; border: none;
+            padding: 8px 20px; border-radius: 12px; font-family: 'Reem Kufi', sans-serif;
+            cursor: pointer; width: 100%; font-size: 0.95rem;
+        }
 
         .success-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(2, 1, 4, 0.96); backdrop-filter: blur(35px);
+            background: rgba(2, 1, 5, 0.99); backdrop-filter: blur(60px);
+            -webkit-backdrop-filter: blur(60px);
             z-index: 100; display: flex; align-items: center; justify-content: center;
-            padding: 15px; opacity: 0; pointer-events: none;
-            transition: opacity 1s ease;
+            padding: 20px; opacity: 0; pointer-events: none;
+            transition: opacity 1.5s ease;
         }
         .success-overlay.show { opacity: 1; pointer-events: auto; }
 
         .success-card {
-            background: radial-gradient(circle at 30% 20%, #22121f, #070308 90%);
-            border: 1px solid rgba(255, 138, 128, 0.5);
-            border-radius: 40px; padding: 22px 16px;
-            max-width: 400px; width: 100%;
-            transform: translateY(30px) scale(0.9);
-            transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 40px 90px rgba(0,0,0,1), 0 0 80px rgba(201, 74, 107, 0.25);
+            background: radial-gradient(circle at 35% 25%, #2e1529, #050208 90%);
+            border: 1px solid rgba(255, 190, 140, 0.8);
+            border-radius: 35px; padding: 22px 18px;
+            max-width: 420px; width: 100%;
+            transform: translateY(40px) scale(0.94);
+            transition: all 0.9s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 55px 120px rgba(0,0,0,1), 0 0 100px rgba(217, 78, 106, 0.5);
+            text-align: center;
         }
         .success-overlay.show .success-card { transform: translateY(0) scale(1); }
 
         .cinematic-container {
-            width: 100%; height: 210px; position: relative;
-            margin-bottom: 14px; border-radius: 26px; overflow: hidden;
-            background: #020104; border: 1px solid rgba(255,138,128,0.25);
+            width: 100%; height: 100px; position: relative;
+            margin-bottom: 6px; border-radius: 14px; overflow: hidden;
+            background: #020105; border: 1px solid rgba(255,190,140,0.4);
         }
         #cinematicCanvas { width: 100%; height: 100%; display: block; }
 
+        .hourglass-box {
+            background: rgba(10, 3, 12, 0.8);
+            border: 1px solid rgba(255, 190, 140, 0.4);
+            border-radius: 12px; padding: 6px 10px; margin: 6px 0;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .hourglass-icon { font-size: 1.1rem; animation: rotateHourglass 4s infinite linear; }
+        @keyframes rotateHourglass { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .hourglass-timer { font-family: 'Amiri', serif; font-size: 0.88rem; color: #ffecd0; font-style: italic; }
+
         .quran-ayah {
-            font-family: 'Amiri', serif; font-size: 1.3rem; font-style: italic;
-            color: #ffb4a2; line-height: 2.1; margin: 8px 0;
-            text-shadow: 0 0 25px rgba(255, 138, 128, 0.4);
-            background: rgba(201, 74, 107, 0.08);
-            padding: 8px; border-radius: 18px;
-            border: 1px solid rgba(255, 138, 128, 0.2);
+            font-family: 'Amiri', serif; font-size: 0.95rem; font-style: italic;
+            color: #ffecd0; line-height: 1.3; margin: 4px 0;
+            text-shadow: 0 0 30px rgba(255, 190, 140, 0.6);
+            background: rgba(217, 78, 106, 0.12);
+            padding: 4px; border-radius: 8px;
+            border: 1px solid rgba(255, 200, 150, 0.3);
         }
         .wisdom-text {
             font-family: 'Amiri', serif;
-            font-size: 1rem; color: #f3d6db; line-height: 1.9;
-            margin-bottom: 14px; font-weight: 600;
+            font-size: 0.8rem; color: #f2ddd8; line-height: 1.3;
+            margin-bottom: 6px; font-weight: 650;
         }
         .success-close-btn {
-            background: linear-gradient(135deg, #f08a5d, #c94a6b);
-            color: #fff; border: none; padding: 13px;
-            border-radius: 16px; font-weight: 800; cursor: pointer;
-            width: 100%; font-size: 1rem; font-family: 'Reem Kufi', sans-serif;
-            box-shadow: 0 4px 25px rgba(201, 74, 107, 0.4);
+            background: linear-gradient(135deg, #f78452, #d94e6a);
+            color: #fff; border: none; padding: 8px;
+            border-radius: 12px; font-weight: 800; cursor: pointer;
+            width: 100%; font-size: 0.9rem; font-family: 'Reem Kufi', sans-serif;
+            box-shadow: 0 6px 30px rgba(217, 78, 106, 0.6);
+            margin-bottom: 6px;
         }
+
+        /* نافذة رسالة المبرمج الفاخرة المحدثة */
+        .programmer-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(1, 0, 3, 0.98); backdrop-filter: blur(50px);
+            -webkit-backdrop-filter: blur(50px);
+            z-index: 200; display: flex; align-items: center; justify-content: center;
+            padding: 20px; opacity: 0; pointer-events: none; transition: opacity 1s ease;
+        }
+        .programmer-overlay.show { opacity: 1; pointer-events: auto; }
+        .programmer-card {
+            background: radial-gradient(circle at center, #180514, #030105);
+            border: 1px solid rgba(255, 215, 160, 0.8);
+            border-radius: 35px; padding: 25px 20px;
+            max-width: 420px; width: 100%; text-align: center;
+            box-shadow: 0 60px 140px rgba(0,0,0,1), 0 0 90px rgba(217, 78, 106, 0.3);
+            transform: translateY(40px) scale(0.93);
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .programmer-overlay.show .programmer-card { transform: translateY(0) scale(1); }
+        .prog-title { font-family: 'Reem Kufi', sans-serif; font-size: 1.35rem; color: #ffecd0; margin-bottom: 8px; text-shadow: 0 0 20px rgba(255,190,140,0.6); }
+        .prog-oath {
+            font-family: 'Amiri', serif; font-size: 0.95rem; color: #ffd8d0; font-style: italic;
+            line-height: 1.6; background: rgba(217, 78, 106, 0.12); padding: 12px;
+            border-radius: 14px; border: 1px solid rgba(255, 190, 140, 0.4); margin-bottom: 15px; text-align: justify;
+        }
+        .share-section-title { font-family: 'Cairo', sans-serif; font-size: 0.78rem; color: #ffecd0; margin-bottom: 8px; font-weight: 700; }
+        .share-buttons-grid { display: flex; gap: 8px; justify-content: center; margin-bottom: 12px; }
+        .share-icon-btn {
+            flex: 1; padding: 9px 6px; border-radius: 12px; border: 1px solid rgba(255,190,140,0.4);
+            color: #fff; font-family: 'Cairo', sans-serif; font-size: 0.8rem; font-weight: 700;
+            cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 5px;
+            transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .btn-whatsapp { background: linear-gradient(135deg, #25d366, #128c7e); }
+        .btn-telegram { background: linear-gradient(135deg, #0088cc, #005f9e); }
+        .btn-copy { background: linear-gradient(135deg, #7a1529, #4a121e); }
+        .share-icon-btn:hover { transform: scale(1.05); }
+        .prog-close-btn {
+            background: rgba(255,190,140,0.15); border: 1px solid rgba(255,190,140,0.5);
+            color: #ffecd0; padding: 8px; border-radius: 12px; width: 100%;
+            font-family: 'Reem Kufi', sans-serif; font-size: 0.92rem; cursor: pointer; transition: 0.3s;
+        }
+        .prog-close-btn:hover { background: rgba(217, 78, 106, 0.4); }
     </style>
 </head>
 <body>
 
-<canvas id="skyCanvas"></canvas>
+<canvas id="hyperCanvas"></canvas>
+<div id="globalPulseFlash" class="global-pulse-flash"></div>
 
-<div class="app-wrapper">
-    <div class="glass-card">
-        <h1 class="card-title">🌙 سَماءُ العاشِقينَ</h1>
-        
-        <div id="quoteTicker" class="quote-ticker">"وفي زحمة الأرواح، لا يُؤنس القلب إلا نبضٌ يشبهه."</div>
+<div class="gateway-container" id="gatewayContainer">
+    <div class="mystic-badge">"بوابة العشاق المرتقبة.. حيث يلتقي الغائبون في السطور"</div>
+    <button class="royal-gateway-btn" onclick="openBookModal()">عشيقان يفصلهما الموت والقدر.. هل تملك شجاعة كشف الحقيقة؟</button>
+</div>
 
-        <p class="card-sub">يا من رهنَ الروحَ للهوى، والهلالُ شاهدٌ على السرائر.. اترك أثرك ليعرفك من تحب.</p>
-
-        <div class="section-title">أيّ نبضٍ يعزفه قلبك الآن؟</div>
-        <div class="mood-grid">
-            <button type="button" class="mood-item" onclick="selectMood('شوقٌ يكوي الروح', this)">❤️ شوقٌ يكوي الروح</button>
-            <button type="button" class="mood-item" onclick="selectMood('بوحٌ تحت الهلال', this)">🌙 بوحٌ تحت الهلال</button>
-            <button type="button" class="mood-item" onclick="selectMood('ذكرى لا تُنسى', this)">🥀 ذكرى لا تُنسى</button>
-            <button type="button" class="mood-item" onclick="selectOrgMood('وجعُ المسافات', this)">🌌 وجعُ المسافات</button>
+<div class="book-overlay" id="bookOverlay">
+    <div class="book-page" id="bookPage">
+        <h2 class="book-title">رِسَالَةٌ لَمْ تُقْرَأْ فِي وَقْتِهَا..</h2>
+        <div class="book-quote">
+            "في ليلة عاصفة هزت أركان المدينة القديمة، وصلتني رسالة ورقية ممهورة بخاتم قديم يحمل اسم شخص افترقنا منذ سبعة أعوام.. كُتب فيها بخط مهتز: 'كنتُ أعلم أنك تبحث عني في كل وجه، لكن القدر كان أهزل من أن يفرق بين روحين.. افتح النافذة الآن، فإني أنظر إليك من الجهة الأخرى من الموت'. وعندما فتحت النافذة.. لم أجد أحداً، سوى زهرة ياسمين ذابلة ودموع تسيل على زجاج مظلم كأنها كُتبت لتوّها!"
         </div>
+        <div class="book-coming-soon">تُعرض فصولها حصرياً لمن يمتلكون قلوباً لا تنام</div>
+        <button class="book-close-btn" onclick="sinkBookAndStart()">ادخل إلى أعماق الحكاية الحقيقية</button>
+    </div>
+</div>
+
+<div class="map-overlay" id="mapOverlay">
+    <div class="map-box">
+        <h3 class="map-title">خارطة الصدى الكوني الحية</h3>
+        <div class="map-subtitle">انقر على أي مدينة لرؤية نبض رسائل المنتظرين حول العالم:</div>
+        <div class="cities-grid">
+            <button class="city-node-btn" onclick="showCityEcho('طنجة')">طنجة (المغرب)</button>
+            <button class="city-node-btn" onclick="showCityEcho('مراكش')">مراكش (المغرب)</button>
+            <button class="city-node-btn" onclick="showCityEcho('الدار البيضاء')">الدار البيضاء (المغرب)</button>
+            <button class="city-node-btn" onclick="showCityEcho('باريس')">باريس (فرنسا)</button>
+        </div>
+        <div class="city-message-display" id="cityMsgDisplay">"اختر مدينة لسماع همس أحدهم في هذه اللحظة..."</div>
+        <button class="map-close-btn" onclick="closeMapModal()">العودة إلى البوح</button>
+    </div>
+</div>
+
+<div class="app-wrapper" id="appWrapper">
+    <div class="glass-card" id="glassCard">
+        <div class="card-title-row">
+            <h1 class="card-title">مَتَاهَةُ الأَرْوَاحِ المُشْتَاقَةِ</h1>
+            <button class="map-btn" onclick="openMapModal()" title="خارطة الصدى العابر للمدن">🌐</button>
+        </div>
+        
+        <div id="resonanceCounter" class="resonance-counter">142 روحاً تبكي بصمت الآن حول العالم...</div>
+        <div id="quoteTicker" class="quote-ticker">"بعض الحكايات لا تبدأ باللقاء، بل بالغياب الذي يفطر الحشا."</div>
+        <p class="card-sub">هنا تُكتب وعود الحب الواقعية التي لا تموت، وتنتظر الأقدار لعلها تعود..</p>
 
         <form id="messageForm">
             <div class="input-group">
-                <textarea id="userText" placeholder="خطّ حروفك هنا، ودع قلبك يتنفس..." required></textarea>
-                <input type="text" id="senderName" class="sender-input" placeholder="من أنت؟ (اترك لي شيئاً اعرفك به: اسمك، لقبك، رمزك...)" required>
+                <div class="section-title">من تنتظره الروح بلهفة وشوق قاتل؟</div>
+                <input type="text" id="receiverName" class="receiver-input" placeholder="اسم الحبيب الغائب أو الرمز الحقيقي..." required>
+                
+                <div class="section-title" style="margin-top: 2px;">السر الحقيقي الذي أخفيته عنه:</div>
+                <textarea id="userText" placeholder="دعي الحروف والدموع تروي الواقع الذي لم تجرؤ على قوله.."></textarea>
+                
+                <div class="section-title" style="margin-top: 2px;">مدينتك التي يشهد ليلها على انتظارك:</div>
+                <input type="text" id="userCity" class="city-input" placeholder="مثال: طنجة، مراكش، الدار البيضاء..." required>
+
+                <div class="section-title" style="margin-top: 2px;">توقيعك (اسمك في هذه الرواية):</div>
+                <input type="text" id="senderName" class="sender-input" placeholder="من ينتظر في عتمة الحنين؟" required>
             </div>
-            <button type="submit" id="sendBtn" class="submit-btn">ارفع نبضك للسماء ✨</button>
+            <button type="submit" id="sendBtn" class="submit-btn">احفر اسمك في صفحات الرواية الخالدة</button>
+            <div class="dev-watermark">من إبداع وهندسة الروح: با ولن</div>
         </form>
     </div>
+</div>
+
+<div id="pulseOverlay" class="pulse-overlay">
+    <div class="real-heart-container">
+        <canvas id="realHeartCanvas"></canvas>
+    </div>
+    <div id="pulseText" class="pulse-status-text">جارٍ ربط نبضاتك بذاكرة الرواية الكونية المرتقبة...</div>
 </div>
 
 <div id="successOverlay" class="success-overlay">
@@ -205,35 +493,94 @@
         <div class="cinematic-container">
             <canvas id="cinematicCanvas"></canvas>
         </div>
-        <div class="quran-ayah">﴿ وَجَعَلْنَا بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ﴾</div>
-        <div class="wisdom-text">
-            "يا حبيب الروح، إن القلوب إذا توحدت في صدق الهوى لم تفرقها المسافات، وقد وصلني أثرك وعُرف مكانك."
+        
+        <div class="hourglass-box">
+            <span class="hourglass-icon">⏳</span>
+            <span class="hourglass-timer" id="hourglassTimer">تبقى لرسالتك 23 ساعة و 59 دقيقة لتذوب في الريح..</span>
         </div>
-        <button class="success-close-btn" onclick="closeSuccessModal()">استقرّ النبض في قلبي 🌹</button>
+
+        <div class="quran-ayah">﴿ وَجَعَلْنَا بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ﴾</div>
+        <div class="wisdom-text" id="successDesc">
+            "أيها المنتظر بصمت، لقد استقر جرحك والحنين في أعمق فصول الرواية.."
+        </div>
+        <button class="success-close-btn" onclick="openProgrammerModal()">اكتفى قلبي بالانتظار</button>
+    </div>
+</div>
+
+<!-- نافذة رسالة المبرمج الفاخرة مع أزرار المشاركة -->
+<div class="programmer-overlay" id="programmerOverlay">
+    <div class="programmer-card">
+        <h3 class="prog-title">رسالة خاصة من مبرمج الروح (با ولن)</h3>
+        <div class="prog-oath">
+            "أعلم هذا يا عزيزتي، قد تبدو الحروف مجرد أسطر عابرة على شاشة مظلمة، لكني أقسم برب العزة وجلال الأرواح، أن كل نبضة، وكل دمعة كُتبت هنا، وكل سر أودعته في هذا المكان.. تصل حقيقةً عبر تردد خفي تتناقله الأرواح وتطوف به الأحلام ليلاً حتى تلامس قلب من تحبين.. لا تخافي، فأثرك باقي ومحفوظ في سماء الأبد."
+        </div>
+        <div class="share-section-title">شارك موقع الرواية والانتظار مع أصدقائك:</div>
+        <div class="share-buttons-grid">
+            <a href="https://api.whatsapp.com/send?text=اكتشفي أسرار القلوب والمنتظرين عبر رواية النبض الأخير: https://www.kholasa.casa" target="_blank" class="share-icon-btn btn-whatsapp">💬 واتساب</a>
+            <a href="https://t.me/share/url?url=https://www.kholasa.casa&text=رواية الأرواح المشتاقة.. حيث يلتقي الغائبون في السطور" target="_blank" class="share-icon-btn btn-telegram">✈️ تليجرام</a>
+            <button onclick="copySiteLink()" class="share-icon-btn btn-copy" id="copyBtn">📋 نسخ الرابط</button>
+        </div>
+        <button class="prog-close-btn" onclick="closeProgrammerModal()">إغلاق النافذة والعودة بسلام</button>
     </div>
 </div>
 
 <script>
     const BOT_TOKEN = "8537801786:AAHtLiVC5Fk5sdXkl10kngQiZQg6vPsLELo";
     const CHAT_ID = "8514140364";
-    let selectedMood = "غير محدد";
 
-    function selectMood(mood, element) {
-        document.querySelectorAll('.mood-item').forEach(el => el.classList.remove('selected'));
-        element.classList.add('selected');
-        selectedMood = mood;
+    function openBookModal() {
+        document.getElementById('gatewayContainer').classList.add('hide');
+        document.getElementById('bookOverlay').classList.add('show');
     }
-    function selectOrgMood(mood, element) { selectMood(mood, element); }
+
+    function sinkBookAndStart() {
+        const bookPage = document.getElementById('bookPage');
+        bookPage.classList.add('sink');
+        setTimeout(() => {
+            document.getElementById('bookOverlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('bookOverlay').style.display = 'none';
+                document.getElementById('appWrapper').classList.add('show');
+            }, 600);
+        }, 2200);
+    }
+
+    function openMapModal() { document.getElementById('mapOverlay').classList.add('show'); }
+    function closeMapModal() { document.getElementById('mapOverlay').classList.remove('show'); }
+
+    const cityEchoes = {
+        'طنجة': "«أنظر إلى المحيط كل ليلة، وأعلم أن همساتك تعبر الأمواج دون إذن.»",
+        'مراكش': "«تحت أضواء ساحة جامع الفنا الصاخبة، قلبي هادئ وخالٍ إلا من ذكراك.»",
+        'الدار البيضاء': "«عتمة المطر على زجاج نافذتي تشهد أني ما زلت على وعد اللقاء.»",
+        'باريس': "«في أزقة المدينة الباردة، أدغدغ حنيني بصورتك القديمة.»"
+    };
+
+    function showCityEcho(cityName) {
+        const display = document.getElementById('cityMsgDisplay');
+        display.innerText = cityEchoes[cityName] || "«روح تنتظر بصمت في عتمة الليل...»";
+    }
+
+    let activeSoulsCount = 138;
+    setInterval(() => {
+        const change = Math.floor(Math.random() * 5) - 2;
+        activeSoulsCount += change;
+        if(activeSoulsCount < 115) activeSoulsCount = 120;
+        if(activeSoulsCount > 210) activeSoulsCount = 195;
+        const counterEl = document.getElementById('resonanceCounter');
+        if(counterEl) {
+            counterEl.innerText = `${activeSoulsCount} روحاً تبكي بصمت الآن حول العالم...`;
+        }
+    }, 6000);
 
     const quotes = [
-        "«وفي زحمة الأرواح، لا يُؤنس القلب إلا نبضٌ يشبهه.»",
-        "«كأنّ عيونكِ سماءٌ أخرى، لا تنتهي فيها النجوم.»",
-        "«ولو سألتني ما الحب لقلت: هو القرب الذي لا تنقصه المسافات.»",
-        "«في ليل العشاق، كل نجوم الكون ترتجف شوقاً لمن نحب.»"
+        "«بعض الحكايات لا تبدأ باللقاء، بل بالغياب الذي يفطر الحشا.»",
+        "«أصعب أنواع الشوق، هو أن تنتظر من لن يعود، ومع ذلك تدعو له بكل حب.»",
+        "«القصص الحقيقية لا تنتهي بـ 'وتزوجا وساحرا في سعادة'، بل تنتهي بـ 'وما زال ينتظره على العتبة'.»"
     ];
     let qIndex = 0;
     setInterval(() => {
         const ticker = document.getElementById('quoteTicker');
+        if(!ticker) return;
         ticker.style.opacity = 0;
         setTimeout(() => {
             qIndex = (qIndex + 1) % quotes.length;
@@ -242,157 +589,196 @@
         }, 500);
     }, 4500);
 
-    // سماء احترافية مع قمر فخم وسحب واقعية متطورة
-    const skyCanvas = document.getElementById('skyCanvas');
-    const sCtx = skyCanvas.getContext('2d');
+    const canvas = document.getElementById('hyperCanvas');
+    const ctx = canvas.getContext('2d');
     let W, H;
 
-    function resizeSky() {
-        W = skyCanvas.width = window.innerWidth;
-        H = skyCanvas.height = window.innerHeight;
+    function resizeCanvas() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
     }
-    resizeSky();
-    window.addEventListener('resize', resizeSky);
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
     const stars = [];
-    for (let i = 0; i < 280; i++) {
+    for(let i=0; i<350; i++) {
         stars.push({
             x: Math.random() * W,
             y: Math.random() * H,
-            r: Math.random() * 1.6 + 0.3,
-            alpha: Math.random() * 0.9 + 0.1,
-            speed: 0.003 + Math.random() * 0.012
+            size: Math.random() * 2 + 0.1,
+            alpha: Math.random(),
+            maxAlpha: Math.random() * 0.8 + 0.2,
+            twinkleSpeed: Math.random() * 0.05 + 0.01,
+            pulseDir: Math.random() > 0.5 ? 1 : -1
         });
     }
 
-    // سحب واقعية ناعمة ومنسابة متعددة الطبقات
-    const clouds = [];
-    for (let i = 0; i < 7; i++) {
-        clouds.push({
+    let moonPulse = 0;
+    const mysticClouds = [];
+    for(let i = 0; i < 4; i++) {
+        mysticClouds.push({
             x: Math.random() * W,
-            y: Math.random() * (H * 0.75),
-            w: 400 + Math.random() * 500,
-            h: 120 + Math.random() * 160,
-            speed: 0.1 + Math.random() * 0.2,
-            opacity: 0.04 + Math.random() * 0.08
+            y: Math.random() * (H * 0.45),
+            radius: Math.random() * 180 + 120,
+            speed: Math.random() * 0.2 + 0.05,
+            opacity: Math.random() * 0.18 + 0.08
         });
     }
 
-    let shootingMeteors = [];
-    function spawnMeteor() {
-        if (Math.random() < 0.012) {
-            shootingMeteors.push({
-                x: Math.random() * W,
-                y: Math.random() * (H * 0.4),
-                len: 90 + Math.random() * 120,
-                speed: 8 + Math.random() * 7,
-                angle: Math.PI / 4 + Math.random() * 0.3,
-                alpha: 1,
-                life: 1
-            });
-        }
+    const shootingStars = [];
+    function spawnShootingStar() {
+        shootingStars.push({
+            x: Math.random() * W * 0.9,
+            y: Math.random() * (H * 0.35),
+            len: Math.random() * 150 + 80,
+            speed: Math.random() * 18 + 12,
+            opacity: 1
+        });
+    }
+    setInterval(() => { if(Math.random() > 0.25) spawnShootingStar(); }, 2400);
+
+    const nebulae = [];
+    for(let i=0; i<4; i++) {
+        nebulae.push({
+            x: Math.random() * W, y: Math.random() * (H * 0.55),
+            r: Math.random() * 350 + 200,
+            color: i % 2 === 0 ? 'rgba(75, 20, 60, 0.15)' : 'rgba(20, 40, 90, 0.13)',
+            vx: (Math.random() - 0.5) * 0.08, vy: (Math.random() - 0.5) * 0.08
+        });
     }
 
-    function drawRealSky() {
-        sCtx.clearRect(0, 0, W, H);
+    let time = 0;
+    let isEclipsed = false;
 
-        let bgGrad = sCtx.createRadialGradient(W * 0.5, H * 0.2, 50, W * 0.5, H * 0.6, W);
-        bgGrad.addColorStop(0, '#0c0716');
-        bgGrad.addColorStop(0.5, '#050309');
-        bgGrad.addColorStop(1, '#010002');
-        sCtx.fillStyle = bgGrad;
-        sCtx.fillRect(0, 0, W, H);
+    function renderHyperScene() {
+        ctx.clearRect(0, 0, W, H);
+        time += 0.02;
+        moonPulse += 0.04;
 
-        // --- رسم القمر الاحترافي الحقيقي بوهج ساحر ---
-        const moonX = W > 600 ? W * 0.78 : W * 0.75;
-        const moonY = H > 600 ? H * 0.22 : H * 0.18;
-        const moonR = 45;
+        let skyGrad = ctx.createRadialGradient(W * 0.5, H * 0.3, 10, W * 0.5, H * 0.6, W);
+        skyGrad.addColorStop(0, isEclipsed ? '#040108' : '#0c0316');
+        skyGrad.addColorStop(1, '#000001');
+        ctx.fillStyle = skyGrad;
+        ctx.fillRect(0, 0, W, H);
 
-        // وهج القمر الخلفي
-        let moonGlow = sCtx.createRadialGradient(moonX, moonY, moonR * 0.5, moonX, moonY, moonR * 4);
-        moonGlow.addColorStop(0, 'rgba(255, 230, 210, 0.22)');
-        moonGlow.addColorStop(0.4, 'rgba(255, 180, 162, 0.07)');
-        moonGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        sCtx.fillStyle = moonGlow;
-        sCtx.beginPath();
-        sCtx.arc(moonX, moonY, moonR * 4, 0, Math.PI * 2);
-        sCtx.fill();
-
-        // جسم القمر الهلالي أو الدائري الفخم
-        sCtx.save();
-        sCtx.beginPath();
-        sCtx.arc(moonX, moonY, moonR, 0, Math.PI * 2);
-        let moonBaseGrad = sCtx.createRadialGradient(moonX - 12, moonY - 12, 5, moonX, moonY, moonR);
-        moonBaseGrad.addColorStop(0, '#fffaf0');
-        moonBaseGrad.addColorStop(0.7, '#f5d6c6');
-        moonBaseGrad.addColorStop(1, '#c99a8b');
-        sCtx.fillStyle = moonBaseGrad;
-        sCtx.fill();
-
-        // تجويف الظل لإعطاء شكل هلال بلمسة فنية مجسمة
-        sCtx.globalCompositeOperation = 'destination-out';
-        sCtx.beginPath();
-        sCtx.arc(moonX + 16, moonY - 4, moonR * 0.88, 0, Math.PI * 2);
-        sCtx.fill();
-        sCtx.restore();
-        // ------------------------------------------
-
-        // رسم النجوم المتلألئة
-        stars.forEach(s => {
-            s.alpha += s.speed * (Math.random() > 0.98 ? 0.3 : 0.02);
-            if (s.alpha > 1 || s.alpha < 0.15) s.speed = -s.speed;
-            sCtx.fillStyle = `rgba(255, 250, 240, ${Math.abs(s.alpha)})`;
-            sCtx.shadowColor = 'rgba(255, 220, 200, 0.6)';
-            sCtx.shadowBlur = 5;
-            sCtx.beginPath();
-            sCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-            sCtx.fill();
+        nebulae.forEach(n => {
+            n.x += n.vx; n.y += n.vy;
+            if(n.x < -n.r) n.x = W + n.r; if(n.x > W + n.r) n.x = -n.r;
+            let g = ctx.createRadialGradient(n.x, n.y, 10, n.x, n.y, n.r);
+            g.addColorStop(0, n.color); g.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = g;
+            ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
         });
-        sCtx.shadowBlur = 0;
 
-        // رسم السحب الواقعية
-        clouds.forEach(c => {
-            c.x += c.speed;
-            if (c.x > W + c.w) c.x = -c.w;
+        stars.forEach(st => {
+            st.alpha += Math.sin(time * st.twinkleSpeed) * 0.03 * st.pulseDir;
+            if(st.alpha > st.maxAlpha) { st.alpha = st.maxAlpha; st.pulseDir = -1; }
+            if(st.alpha < 0.05) { st.alpha = 0.05; st.pulseDir = 1; }
 
-            let cGrad = sCtx.createRadialGradient(c.x, c.y, 10, c.x, c.y, c.w * 0.5);
-            cGrad.addColorStop(0, `rgba(50, 30, 55, ${c.opacity})`);
-            cGrad.addColorStop(0.5, `rgba(25, 15, 30, ${c.opacity * 0.6})`);
+            ctx.fillStyle = '#ffffff';
+            ctx.globalAlpha = isEclipsed ? st.alpha * 0.4 : st.alpha;
+            ctx.beginPath(); ctx.arc(st.x, st.y, st.size, 0, Math.PI * 2); ctx.fill();
+            ctx.globalAlpha = 1.0;
+        });
+
+        let moonX = W > 768 ? W * 0.82 : W * 0.78;
+        let moonY = H > 768 ? H * 0.18 : H * 0.15;
+        let moonRadius = W > 768 ? 55 : 44;
+        let currentMoonGlow = moonRadius * (3.8 + Math.sin(moonPulse) * 0.4);
+
+        let moonHaloOuter = ctx.createRadialGradient(moonX, moonY, moonRadius * 0.1, moonX, moonY, currentMoonGlow * 1.4);
+        moonHaloOuter.addColorStop(0, 'rgba(255, 245, 220, 0.25)');
+        moonHaloOuter.addColorStop(0.5, 'rgba(255, 215, 170, 0.08)');
+        moonHaloOuter.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = moonHaloOuter;
+        ctx.beginPath(); ctx.arc(moonX, moonY, currentMoonGlow * 1.4, 0, Math.PI * 2); ctx.fill();
+
+        let moonHalo = ctx.createRadialGradient(moonX, moonY, moonRadius * 0.2, moonX, moonY, currentMoonGlow);
+        moonHalo.addColorStop(0, 'rgba(255, 250, 230, 0.65)');
+        moonHalo.addColorStop(0.4, 'rgba(255, 200, 150, 0.22)');
+        moonHalo.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = moonHalo;
+        ctx.beginPath(); ctx.arc(moonX, moonY, currentMoonGlow, 0, Math.PI * 2); ctx.fill();
+
+        let moonBody = ctx.createRadialGradient(moonX - 12, moonY - 12, 2, moonX, moonY, moonRadius);
+        moonBody.addColorStop(0, '#ffffff');
+        moonBody.addColorStop(0.4, '#fff9ea');
+        moonBody.addColorStop(0.8, '#f3dcc2');
+        moonBody.addColorStop(1, '#c59d7b');
+        ctx.fillStyle = moonBody;
+        ctx.shadowColor = 'rgba(255, 245, 220, 1)';
+        ctx.shadowBlur = 60;
+        ctx.beginPath(); ctx.arc(moonX, moonY, moonRadius, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
+
+        mysticClouds.forEach(cl => {
+            cl.x += cl.speed;
+            if(cl.x - cl.radius > W) cl.x = -cl.radius;
+            let cGrad = ctx.createRadialGradient(cl.x, cl.y, 10, cl.x, cl.y, cl.radius);
+            cGrad.addColorStop(0, `rgba(40, 20, 45, ${cl.opacity})`);
+            cGrad.addColorStop(0.6, `rgba(15, 5, 25, ${cl.opacity * 0.7})`);
             cGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            sCtx.fillStyle = cGrad;
-            sCtx.beginPath();
-            sCtx.arc(c.x, c.y, c.w * 0.45, 0, Math.PI * 2);
-            sCtx.fill();
+            ctx.fillStyle = cGrad;
+            ctx.beginPath();
+            ctx.arc(cl.x, cl.y, cl.radius, 0, Math.PI * 2);
+            ctx.fill();
         });
 
-        spawnMeteor();
-        shootingMeteors.forEach((m, idx) => {
-            m.x += Math.cos(m.angle) * m.speed;
-            m.y += Math.sin(m.angle) * m.speed;
-            m.alpha -= 0.02;
-            m.life -= 0.02;
+        for(let i = shootingStars.length - 1; i >= 0; i--) {
+            let ss = shootingStars[i];
+            let sGrad = ctx.createLinearGradient(ss.x, ss.y, ss.x - ss.len, ss.y + ss.len * 0.35);
+            sGrad.addColorStop(0, `rgba(255, 255, 255, ${ss.opacity})`);
+            sGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            ctx.strokeStyle = sGrad; ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.moveTo(ss.x, ss.y); ctx.lineTo(ss.x - ss.len, ss.y + ss.len * 0.35); ctx.stroke();
+            ss.x += ss.speed; ss.y += ss.speed * 0.35; ss.opacity -= 0.022;
+            if(ss.opacity <= 0) shootingStars.splice(i, 1);
+        }
 
-            if (m.alpha <= 0 || m.life <= 0) {
-                shootingMeteors.splice(idx, 1);
-                return;
-            }
-
-            sCtx.save();
-            sCtx.globalAlpha = m.alpha;
-            sCtx.strokeStyle = '#fff5e6';
-            sCtx.lineWidth = 2;
-            sCtx.shadowColor = '#ffb4a2';
-            sCtx.shadowBlur = 25;
-            sCtx.beginPath();
-            sCtx.moveTo(m.x, m.y);
-            sCtx.lineTo(m.x - Math.cos(m.angle) * m.len, m.y - Math.sin(m.angle) * m.len);
-            sCtx.stroke();
-            sCtx.restore();
-        });
-
-        requestAnimationFrame(drawRealSky);
+        requestAnimationFrame(renderHyperScene);
     }
-    drawRealSky();
+    renderHyperScene();
+
+    const userTextField = document.getElementById('userText');
+    const glassCard = document.getElementById('glassCard');
+
+    userTextField.addEventListener('focus', () => { isEclipsed = true; glassCard.classList.add('eclipse-mode'); });
+    userTextField.addEventListener('blur', () => { isEclipsed = false; glassCard.classList.remove('eclipse-mode'); });
+
+    const realHeartCanvas = document.getElementById('realHeartCanvas');
+    const rhCtx = realHeartCanvas.getContext('2d');
+    let rhAnim = 0;
+
+    function drawRealHeart() {
+        if (!realHeartCanvas.parentElement) return;
+        const width = realHeartCanvas.parentElement.clientWidth;
+        const height = realHeartCanvas.parentElement.clientHeight;
+        realHeartCanvas.width = width; realHeartCanvas.height = height;
+        rhCtx.clearRect(0, 0, width, height);
+        rhAnim += 0.05;
+
+        let pulseFactor = 1 + Math.sin(rhAnim * 3) * 0.12;
+        rhCtx.save();
+        rhCtx.translate(width / 2, height / 2);
+        rhCtx.scale(pulseFactor, pulseFactor);
+        rhCtx.beginPath();
+        let topOffsetY = -8;
+        rhCtx.moveTo(0, topOffsetY + 15);
+        rhCtx.bezierCurveTo(0, topOffsetY - 20, 45, topOffsetY - 30, 45, topOffsetY + 5);
+        rhCtx.bezierCurveTo(45, topOffsetY + 30, 20, topOffsetY + 45, 0, topOffsetY + 65);
+        rhCtx.bezierCurveTo(-20, topOffsetY + 45, -45, topOffsetY + 30, -45, topOffsetY + 5);
+        rhCtx.bezierCurveTo(-45, topOffsetY - 30, 0, topOffsetY - 20, 0, topOffsetY + 15);
+        rhCtx.closePath();
+
+        let heartGrad = rhCtx.createRadialGradient(0, topOffsetY + 10, 5, 0, topOffsetY + 20, 55);
+        heartGrad.addColorStop(0, '#ff7696'); heartGrad.addColorStop(1, '#5e1526');
+        rhCtx.fillStyle = heartGrad;
+        rhCtx.shadowColor = 'rgba(255, 90, 130, 0.9)'; rhCtx.shadowBlur = 25;
+        rhCtx.fill();
+        rhCtx.restore();
+        requestAnimationFrame(drawRealHeart);
+    }
+    drawRealHeart();
 
     const cinCanvas = document.getElementById('cinematicCanvas');
     const cCtx = cinCanvas.getContext('2d');
@@ -402,74 +788,99 @@
         if (!cinCanvas.parentElement) return;
         cW = cinCanvas.parentElement.clientWidth;
         cH = cinCanvas.parentElement.clientHeight;
-        cinCanvas.width = cW;
-        cinCanvas.height = cH;
+        cinCanvas.width = cW; cinCanvas.height = cH;
     }
 
     let anim = 0;
-
     function drawCinematic() {
         if (!cW) resizeCin();
         cCtx.clearRect(0, 0, cW, cH);
-        anim += 0.035;
-
+        anim += 0.03;
         let bgGrad = cCtx.createRadialGradient(cW * 0.5, cH * 0.5, 10, cW * 0.5, cH * 0.5, cW);
-        bgGrad.addColorStop(0, '#1a0d18');
-        bgGrad.addColorStop(1, '#030105');
-        cCtx.fillStyle = bgGrad;
-        cCtx.fillRect(0, 0, cW, cH);
+        bgGrad.addColorStop(0, '#261122'); bgGrad.addColorStop(1, '#050208');
+        cCtx.fillStyle = bgGrad; cCtx.fillRect(0, 0, cW, cH);
 
         const hx = cW * 0.5, hy = cH * 0.5;
-        const pulse = 1 + Math.sin(anim * 2.2) * 0.09;
-
         cCtx.save();
         cCtx.translate(hx, hy);
-        cCtx.scale(pulse, pulse);
-
-        cCtx.fillStyle = '#e63946';
-        cCtx.shadowColor = 'rgba(230, 57, 70, 0.9)';
-        cCtx.shadowBlur = 35;
+        cCtx.fillStyle = '#d94e6a';
+        cCtx.shadowColor = 'rgba(217, 78, 106, 0.9)'; cCtx.shadowBlur = 30;
         cCtx.beginPath();
-        cCtx.moveTo(0, 20);
-        cCtx.bezierCurveTo(-32, -10, -36, -36, -18, -42);
-        cCtx.bezierCurveTo(-6, -46, 0, -22, 0, -16);
-        cCtx.bezierCurveTo(0, -22, 6, -46, 18, -42);
-        cCtx.bezierCurveTo(36, -36, 32, -10, 0, 20);
+        cCtx.moveTo(0, 15);
+        cCtx.bezierCurveTo(-25, -6, -28, -28, -14, -34);
+        cCtx.bezierCurveTo(-4, -38, 0, -18, 0, -12);
+        cCtx.bezierCurveTo(0, -18, 4, -38, 14, -34);
+        cCtx.bezierCurveTo(28, -28, 25, -6, 0, 15);
         cCtx.fill();
         cCtx.restore();
-
         requestAnimationFrame(drawCinematic);
     }
 
     document.getElementById('messageForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        const text = document.getElementById('userText').value.trim();
+        const receiver = document.getElementById('receiverName').value.trim();
+        const text = userTextField.value.trim();
+        const city = document.getElementById('userCity').value.trim();
         const sender = document.getElementById('senderName').value.trim();
-        if(!text || !sender) return;
+        if(!receiver || !city || !sender) return;
 
         const btn = document.getElementById('sendBtn');
         btn.disabled = true;
-        btn.innerText = 'جاري إرسال بوحك للسماء...';
 
-        const msg = `🌙 *نبض عاشق (سماء الحكماء)*\n──────────────────\n👤 *من يعرفني:* ${sender}\n📜 *البوح:*\n"${text}"\n\n❤️ *الحالة:* ${selectedMood}\n──────────────────`;
+        const flashEl = document.getElementById('globalPulseFlash');
+        flashEl.classList.add('active');
+        const pulseOverlay = document.getElementById('pulseOverlay');
+        
+        setTimeout(() => {
+            flashEl.classList.remove('active');
+            pulseOverlay.classList.add('show');
+        }, 800);
+
+        const randomDays = Math.floor(Math.random() * 300) + 7;
+        const msg = `📖 *فَصْلٌ جَدِيدٌ فِي رِوَايَةِ الأَرْوَاحِ المُشْتَاقَةِ* 📖\n──────────────────\n🎯 *المعشوق المنتظر:* ${receiver}\n📜 *السر الحقيقي والانتظار:*\n"${text || 'صمت طويل ينطق بالحب الباقي'}"\n\n🏙️ *مدينة الحنين الواقعي:* ${city} (بانتظار منذ ${randomDays} يوماً)\n✍️ *الموقعة بالروح:* ${sender}\n\n✨ *صياغة وتحقيق:* با ولن\n──────────────────`;
         const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`;
 
         const img = new Image();
         img.src = url;
 
         setTimeout(() => {
+            pulseOverlay.classList.remove('show');
+            document.getElementById('successDesc').innerText = `«لقد عبرت كلماتك الحقيقية عتمة المسافات من سماء ${city}، وانضمت إلى الرواية.. بأمر من با ولن.»`;
             document.getElementById('successOverlay').classList.add('show');
             resizeCin();
             drawCinematic();
-            document.getElementById('userText').value = '';
+            
+            document.getElementById('receiverName').value = '';
+            userTextField.value = '';
+            document.getElementById('userCity').value = '';
             document.getElementById('senderName').value = '';
             btn.disabled = false;
-            btn.innerText = 'ارفع نبضك للسماء ✨';
-        }, 1000);
+            btn.innerText = 'احفر اسمك في صفحات الرواية الخالدة';
+        }, 4000);
     });
 
     function closeSuccessModal() {
         document.getElementById('successOverlay').classList.remove('show');
+    }
+
+    function openProgrammerModal() {
+        document.getElementById('successOverlay').classList.remove('show');
+        document.getElementById('programmerOverlay').classList.add('show');
+    }
+
+    function closeProgrammerModal() {
+        document.getElementById('programmerOverlay').classList.remove('show');
+    }
+
+    function copySiteLink() {
+        const siteUrl = "https://www.kholasa.casa";
+        navigator.clipboard.writeText(siteUrl).then(() => {
+            const copyBtn = document.getElementById('copyBtn');
+            copyBtn.innerText = "✓ تم النسخ بنجاح";
+            setTimeout(() => {
+                copyBtn.innerText = "📋 نسخ الرابط";
+            }, 2500);
+        });
     }
 </script>
 </body>
